@@ -16,4 +16,11 @@
     padding: 0;
     overflow: hidden;
   }
+
+  .page__title {
+    width: 100dvw !important;
+    font-size: 10rem;
+    color: #fff;
+    font-weight: 400;
+  }
 }
