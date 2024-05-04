@@ -3,70 +3,90 @@ import { Html } from '@react-three/drei'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ThreeGlobe from 'three-globe'
 import { FaMapMarkerAlt } from 'react-icons/fa'
-import { Vector3, Euler, MathUtils } from 'three'
-import { useFrame, useThree } from '@react-three/fiber'
+import { Vector3, Euler, MathUtils, Quaternion, Matrix3 } from 'three'
+import { events, useFrame, useThree } from '@react-three/fiber'
 import { useDrag, useWheel } from '@use-gesture/react'
 
 function GlobeModel({ responsiveness, ...props }) {
   const globeRef = useRef(null)
-  const { size, camera, controls } = useThree()
+  const myGlobe = useMemo(() => new ThreeGlobe(), [])
+  const { size } = useThree()
   const euler = useMemo(() => new Euler(), [])
-  const [spring, setSpring] = useSpring(() => ({
+  const [springs, api] = useSpring(() => ({
     rotation: [0, 0, 0],
   }))
   const bindDrag = useDrag(
     ({ delta: [dx, dy] }) => {
       euler.y += (dx / size.width) * responsiveness
       euler.x += (dy / size.width) * responsiveness
-      euler.x = MathUtils.clamp(euler.x, -Math.PI / 4, Math.PI / 4)
-      setSpring({ rotation: euler.toArray().slice(0, 3) })
+      euler.x = MathUtils.clamp(euler.x, -75 * MathUtils.DEG2RAD, 75 * MathUtils.DEG2RAD)
+      api.start({ rotation: euler.toArray().slice(0, 3) })
     },
-    { axis: 'x' | 'y' },
+    { axis: 'x' | 'y', threshold: 0.5 },
   )
 
-  const bindWheel = useWheel(() => {})
+  // const bindWheel = useWheel(() => {})
 
   const [markerPosition, setMarkerPosition] = useState(null)
   // const markerSvg = `<svg viewBox=\"-4 0 36 36\">
   //     <path fill=\"currentColor\" d=\"M14,0 C21.732,0 28,5.641 28,12.6 C28,23.963 14,36 14,36 C14,36 0,24.064 0,12.6 C0,5.641 6.268,0 14,0 Z\"></path>
   //     <circle fill=\"black\" cx=\"14\" cy=\"14\" r=\"7\"></circle>
   //   </svg>`
+  let clickable = true
+  const handleDoubleClick = useCallback((event) => {
+    setTimeout(() => {
+      clickable = true
+    }, 800)
 
-  const handleClick = useCallback((event) => {
-    let clickable = true
+    if (clickable) {
+      // Process click
+      const { x, y, z } = event.point
+      const radius = Math.sqrt(x ** 2 + y ** 2 + z ** 2)
+      // console.log('radius', radius)
+      const azimuth = Math.atan2(x, z)
+      const polar = Math.acos(y / radius)
 
-    return () => {
-      setTimeout(() => {
-        clickable = true
-      }, 800)
+      euler.set(-globeRef.current.rotation.x, -globeRef.current.rotation.y, 0, 'YXZ')
+      const reversedRotation = { x: -globeRef.current.rotation.x, y: -globeRef.current.rotation.y }
+      const pointWithoutRotation = event.point.clone().applyEuler(euler)
 
-      if (clickable) {
-        // Process click
-      }
-      clickable = false
+      const reversedCoordinates = myGlobe.toGeoCoords(pointWithoutRotation)
+
+      const targetRotation = new Euler().setFromVector3(globeRef.current.rotation, 'YXZ')
+      targetRotation.y -= azimuth
+      targetRotation.x += Math.PI / 2 - polar
+      // targetRotation.y -= globeRef.current.rotation.y
+      // targetRotation.x -= globeRef.current.rotation.x
+      api.start({ rotation: targetRotation.toArray().slice(0, 3) })
     }
+    clickable = false
   }, [])
-  const myGlobe = new ThreeGlobe()
-  for (const key in props) {
-    if (key in myGlobe) {
-      myGlobe[key](props[key])
-    }
-  }
 
-  const myPrimitive = useMemo(() => {
-    return <primitive object={myGlobe} />
+  useEffect(() => {
+    for (const key in props) {
+      if (key in myGlobe) {
+        myGlobe[key](props[key])
+      }
+    }
   }, [])
 
   return (
     <>
-      <a.group ref={globeRef} {...bindDrag()} {...spring} onClick={handleClick}>
-        {myPrimitive}
+      <group {...bindDrag()}>
+        <a.primitive
+          position={[0, 0, 0]}
+          ref={globeRef}
+          object={myGlobe}
+          {...springs}
+          onDoubleClick={handleDoubleClick}
+        />
         {markerPosition && (
           <Marker position={markerPosition}>
             <FaMapMarkerAlt style={{ color: 'indianred' }} />
           </Marker>
         )}
-      </a.group>
+        <axesHelper args={[120, 120, 150]} />
+      </group>
     </>
   )
 }
@@ -93,7 +113,7 @@ function Marker({ children, ...props }) {
         // Tells us when contents are occluded (or not)
         onOcclude={setOccluded}
         // We just interpolate the visible state into css opacity and transforms
-        style={{ transition: 'all 0.2s', opacity: 1, transform: `scale(10) translateY(-8px)` }}
+        style={{ transition: 'all 0.2s', opacity: 1, transform: `scale(20) translateY(-8px)` }}
         {...props}
       >
         {children}
