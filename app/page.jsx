@@ -7,6 +7,7 @@ import { Perf } from 'r3f-perf'
 import { Suspense, forwardRef, useEffect, useRef } from 'react'
 import globeImage from 'public/img/earth-blue-marble.jpg'
 import globeBumpImage from 'public/img/earth-topology.png'
+import SearchBar from '@/components/dom/SearchBar'
 
 const Globe = dynamic(() => import('@/components/globe/Globe').then((mod) => mod.default), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
@@ -33,12 +34,9 @@ export default function Page() {
     perfVisible: false,
   })
 
-  useEffect(() => {
-    console.log('usefect', viewRef.current)
-  }, [])
-
   return (
     <>
+      <SearchBar />
       <View orbit className='relative h-full sm:w-full' innerRef={viewRef}>
         {perfVisible && <Perf position='top-left' />}
         <Html
@@ -49,6 +47,8 @@ export default function Page() {
           className='text-5xl lg:text-6xl xl:text-8xl'
           as='h1'
           distanceFactor={100}
+          occlude
+          zIndexRange={[999, 1000]}
         >
           What is the weather at ...?
         </Html>
