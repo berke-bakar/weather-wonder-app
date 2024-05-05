@@ -6,7 +6,6 @@ export async function searchCity(prevState, formData) {
     try {
         const data = await getCityData(formData.get('city-input'))
         //TODO: Eliminate unnecessary fields
-        console.log();
         return {
             results: data,
             error: ''
