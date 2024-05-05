@@ -4,12 +4,10 @@ import { Html } from '@react-three/drei'
 import { useControls } from 'leva'
 import dynamic from 'next/dynamic'
 import { Perf } from 'r3f-perf'
-import { Suspense, forwardRef, useEffect, useRef } from 'react'
-import globeImage from 'public/img/earth-blue-marble.jpg'
-import globeBumpImage from 'public/img/earth-topology.png'
+import { Suspense, useRef } from 'react'
 import SearchBar from '@/components/dom/SearchBar'
 
-const Globe = dynamic(() => import('@/components/globe/Globe').then((mod) => mod.default), { ssr: false })
+const Earth = dynamic(() => import('@/components/globe/Earth').then((mod) => mod.default), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -54,12 +52,7 @@ export default function Page() {
         </Html>
         <Suspense fallback={null}>
           <Common color={'#000011'} />
-          <Globe
-            globeImageUrl={globeImage.src}
-            bumpImageUrl={globeBumpImage.src}
-            showGraticules={true}
-            responsiveness={20}
-          />
+          <Earth />
         </Suspense>
       </View>
     </>

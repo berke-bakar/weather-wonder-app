@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { FaSearchLocation } from 'react-icons/fa'
 import { useFormState, useFormStatus } from 'react-dom'
 import { searchCity } from '@/lib/actions'
+import { useCoordinateStore } from '@/store/zustand'
 
 export default function SearchBar() {
   const initialState = { results: [], error: '' }
@@ -62,8 +63,9 @@ function LoadingComponent() {
 }
 
 function SearchResult({ placeId, placeName, data, ...props }) {
+  const setCoordinates = useCoordinateStore((state) => state.setCoordinates)
   function handleClick(evt) {
-    //data: {lat: 35.45324, lng: 42.3114}
+    setCoordinates(data.lat, data.lon)
   }
 
   return (

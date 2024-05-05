@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, Suspense, useEffect, useImperativeHandle, useRef } from 'react'
+import { forwardRef, Suspense, useImperativeHandle, useRef } from 'react'
 import {
   Environment,
   OrbitControls,
@@ -26,7 +26,6 @@ export const Common = ({ color }) => {
 
   return (
     <Suspense fallback={null}>
-      {color && <color attach='background' args={[color]} />}
       <Environment background map={envMap} />
       <ambientLight intensity={intensity} />
       <PerspectiveCamera makeDefault fov={40} position={[0, 0, 500]} />
