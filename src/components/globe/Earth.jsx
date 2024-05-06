@@ -8,6 +8,7 @@ import { a, useSpring } from '@react-spring/three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useCoordinateStore } from '@/store/zustand'
 import { latLngToCartesian, latLngToSpherical } from '@/helpers/utils'
+import { damp } from 'maath/easing'
 
 export default function Earth(props) {
   const groupRef = useRef(null)
@@ -48,24 +49,13 @@ export default function Earth(props) {
 
   useFrame(({ camera, controls }, delta) => {
     if (playZoomAnimation) {
-      // Zooming start, save the original position for correct lerping
-      if (zoomAnimationPercentage === 0) {
-        cameraStartPos.copy(camera.position)
+      if (damp(camera.position, 'z', 160, 0.25, delta)) {
         controls.enabled = false
-      }
-      // While target is not reached
-      if (zoomAnimationPercentage < 1) {
-        zoomAnimationPercentage += 0.05
-        camera.position.z = MathUtils.lerp(cameraStartPos.z, cameraTarget.z, 1, zoomAnimationPercentage)
-        // console.log(MathUtils.damp(cameraStartPos.z, cameraTarget.z, 1, delta))
       } else {
-        // Target reached
-        zoomAnimationPercentage = 0
         controls.enabled = true
         setPlayZoomAnimation(false)
       }
     }
-    // console.log(MathUtils.damp(cameraStartPos.z, cameraTarget.z, 0.1, delta))
   })
 
   useEffect(() => {
