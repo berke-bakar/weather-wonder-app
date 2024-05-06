@@ -50,7 +50,15 @@ const View = forwardRef(({ children, orbit, innerRef, ...props }, ref) => {
         <ViewImpl track={innerRef}>
           {children}
           {orbit && (
-            <OrbitControls makeDefault enablePan={false} enableRotate={false} target={[0, 0, 0]} dampingFactor={1} />
+            <OrbitControls
+              makeDefault
+              enablePan={false}
+              enableRotate={false}
+              target={[0, 0, 0]}
+              enableZoom={true}
+              zoomSpeed={2}
+              dampingFactor={1}
+            />
           )}
         </ViewImpl>
       </Three>
