@@ -1,11 +1,11 @@
 'use client'
 
 import { Html } from '@react-three/drei'
-import { useControls } from 'leva'
 import dynamic from 'next/dynamic'
 import { Perf } from 'r3f-perf'
-import { Suspense, useRef } from 'react'
+import { Suspense } from 'react'
 import SearchBar from '@/components/dom/SearchBar'
+import WeatherResults from '@/components/weather/WeatherResults'
 
 const Earth = dynamic(() => import('@/components/globe/Earth').then((mod) => mod.default), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
@@ -26,17 +26,12 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
-  const viewRef = useRef()
-
-  const { perfVisible } = useControls('debug', {
-    perfVisible: false,
-  })
-
   return (
     <>
       <SearchBar />
-      <View orbit className='relative h-full sm:w-full' innerRef={viewRef}>
-        {perfVisible && <Perf position='top-left' />}
+      <WeatherResults />
+      <View orbit className='relative h-full sm:w-full'>
+        <Perf position='top-left' />
         <Html
           position={[0, 150, 0]}
           transform
@@ -50,10 +45,8 @@ export default function Page() {
         >
           What is the weather at ...?
         </Html>
-        <Suspense fallback={null}>
-          <Common color={'#000011'} />
-          <Earth />
-        </Suspense>
+        <Common color={'#000011'} />
+        <Earth />
       </View>
     </>
   )

@@ -38,10 +38,13 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    touch-action: none;
   }
 
   .search__title {
-    margin-bottom: 0.5rem;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    user-select: none;
   }
   .search__input-container {
     display: flex;
@@ -92,5 +95,84 @@
 
   .search__result_item-last {
     border-radius: 0 0 10px 10px;
+  }
+
+  .weather__container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background-color: #292d39;
+    color: #fff;
+    max-width: 45ch;
+    min-width: 25dvw;
+    min-height: 50dvh;
+    border-radius: 10px;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .weather__current-container {
+  }
+
+  .weather__title {
+    font-size: 2rem;
+  }
+
+  .weather__city_name {
+    font-size: 2rem;
+    margin: 1rem;
+  }
+
+  .weather__data {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border-radius: 0px 0px 10px 10px;
+    border-width: 0px 1px 0px 1px;
+    border-color: #292d39;
+    padding: 1rem 1rem;
+    flex: 1;
+    display: flex;
+  }
+
+  .weather__tab_container {
+    display: flex;
+  }
+
+  .weather__tab {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem 1rem;
+    flex: 1;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    border-width: 0px 1px 1px 1px;
+    border-color: #292d39;
+    cursor: pointer;
+  }
+
+  .weather__tab-active {
+    border-width: 0px 1px 0px 1px;
+  }
+
+  .weather__daily-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .weather__daily-selection {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .marker:hover {
+    cursor: pointer;
   }
 }
