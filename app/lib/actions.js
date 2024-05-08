@@ -25,12 +25,10 @@ async function getCityData(cityName) {
                 city: `${cityName}`,
                 format: 'jsonv2',
                 limit: 10,
-                featureType: 'city'
+                featureType: 'settlement'
             }
         })
         .then((data) => {
             return data.data
         })
 }
-
-
