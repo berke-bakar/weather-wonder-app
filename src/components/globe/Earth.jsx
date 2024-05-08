@@ -17,11 +17,7 @@ export default function Earth(props) {
   const [playZoomAnimation, setPlayZoomAnimation] = useState(false)
   const { size } = useThree()
 
-  const cameraStartPos = new Vector3()
-  let zoomAnimationPercentage = 0
-
   const euler = useMemo(() => new Euler(0, 0, 0, 'YXZ'), [])
-  const cameraTarget = useMemo(() => new Vector3(0, 0, 160), [])
   const [globeSpring, globeApi] = useSpring(() => ({
     rotation: [0, 0, 0],
   }))
@@ -72,7 +68,7 @@ export default function Earth(props) {
         rotation={[0, -Math.PI, 0]}
       />
       <GlobeMarker position={markerPosition} scale={15}>
-        <FaMapMarkerAlt style={{ color: 'indianred' }} />
+        <FaMapMarkerAlt style={{ color: 'indianred' }} className='marker' />
       </GlobeMarker>
     </a.group>
   )
