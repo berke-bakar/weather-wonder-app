@@ -11,29 +11,24 @@ import {
 } from '@react-three/drei'
 import { Three } from '@/helpers/components/Three'
 import { PointLightHelper } from 'three'
-import { useControls } from 'leva'
 import envMapImage from 'public/img/night-sky.jpg'
 
 export const Common = ({ color }) => {
   const refLight = useRef()
   useHelper(refLight, PointLightHelper, 0.5, 'red')
 
-  const { intensity } = useControls('Lighting', {
-    intensity: { value: 8.5, step: 0.1 },
-  })
-
   const envMap = useEnvironment({ files: envMapImage.src })
 
   return (
     <Suspense fallback={null}>
       <Environment background map={envMap} />
-      <ambientLight intensity={intensity} />
+      <ambientLight intensity={8.5} />
       <PerspectiveCamera makeDefault fov={40} position={[0, 0, 500]} />
     </Suspense>
   )
 }
 
-const View = forwardRef(({ children, orbit, innerRef, ...props }, ref) => {
+const View = forwardRef(({ children, orbit, ...props }, ref) => {
   const localRef = useRef(null)
   useImperativeHandle(
     ref,
@@ -45,9 +40,9 @@ const View = forwardRef(({ children, orbit, innerRef, ...props }, ref) => {
 
   return (
     <>
-      <div ref={innerRef} {...props} />
+      <div ref={localRef} {...props} />
       <Three>
-        <ViewImpl track={innerRef}>
+        <ViewImpl track={localRef}>
           {children}
           {orbit && (
             <OrbitControls
