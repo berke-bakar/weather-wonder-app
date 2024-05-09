@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense, memo, useCallback, useEffect, useState } from 'react'
-import { useCoordinateStore } from '@/store/zustand'
+import { useWeatherStore } from '@/store/zustand'
 import CurrentWeatherCard from './CurrentWeatherCard'
 import DailyWeatherCard from './DailyWeatherCard'
 import { useSpring, a } from '@react-spring/web'
@@ -22,8 +22,7 @@ function Loading() {
 }
 
 export default function WeatherResults() {
-  const placeName = useCoordinateStore((state) => state.placeName)
-  const coordinates = useCoordinateStore((state) => state.coordinates)
+  const placeName = useWeatherStore((state) => state.placeName)
   const [selectedTab, setSelectedTab] = useState(0)
 
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
@@ -34,11 +33,7 @@ export default function WeatherResults() {
   }
 
   return (
-    <a.div
-      className='weather__container'
-      {...bind()}
-      style={{ x, y, display: coordinates.lat === null ? 'none' : 'flex' }}
-    >
+    <a.div className='weather__container' {...bind()} style={{ x, y, display: placeName === '' ? 'none' : 'flex' }}>
       <h1 className='weather__city_name'>{placeName}</h1>
       <div className='weather__tab_container'>
         <div id={0} onClick={handleClick} className={`weather__tab ${selectedTab === 0 ? 'weather__tab-active' : ''}`}>

@@ -6,7 +6,7 @@ import { Vector3, MathUtils, Euler } from 'three'
 import { useDrag } from '@use-gesture/react'
 import { a, useSpring } from '@react-spring/three'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useCoordinateStore } from '@/store/zustand'
+import { useWeatherStore } from '@/store/zustand'
 import { latLngToCartesian, latLngToSpherical } from '@/helpers/utils'
 import { damp } from 'maath/easing'
 
@@ -30,7 +30,7 @@ export default function Earth(props) {
     globeApi.start({ rotation: euler.toArray().slice(0, 3) })
   })
 
-  const coordinates = useCoordinateStore((state) => state.coordinates)
+  const coordinates = useWeatherStore((state) => state.coordinates)
   useEffect(() => {
     if (coordinates.lat) {
       const cartesianCoords = latLngToCartesian(coordinates.lat, coordinates.lng, 100)
