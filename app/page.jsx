@@ -2,10 +2,10 @@
 
 import { Html } from '@react-three/drei'
 import dynamic from 'next/dynamic'
-import { Perf } from 'r3f-perf'
 import { Suspense } from 'react'
 import SearchBar from '@/components/dom/SearchBar'
 import WeatherResults from '@/components/weather/WeatherResults'
+import Settings from '@/components/dom/Settings'
 
 const Earth = dynamic(() => import('@/components/globe/Earth').then((mod) => mod.default), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
@@ -30,8 +30,8 @@ export default function Page() {
     <>
       <SearchBar />
       <WeatherResults />
+      <Settings />
       <View orbit className='relative h-full sm:w-full'>
-        <Perf position='top-left' />
         <Html
           position={[0, 150, 0]}
           transform

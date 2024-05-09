@@ -1,5 +1,5 @@
 'use client'
-import { useCoordinateStore } from '@/store/zustand'
+import { useWeatherStore } from '@/store/zustand'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FaCircle, FaDotCircle } from 'react-icons/fa'
@@ -8,8 +8,9 @@ export default function DailyWeatherCard({ style }) {
   const [weatherData, setWeatherData] = useState(null)
   const [weatherInfo, setWeatherInfo] = useState(null)
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
-  const coordinates = useCoordinateStore((state) => state.coordinates)
-
+  const coordinates = useWeatherStore((state) => state.coordinates)
+  const tempUnit = useWeatherStore((state) => state.tempUnit)
+  const windUnit = useWeatherStore((state) => state.windUnit)
   useEffect(() => {
     if (coordinates.lat !== null) {
       axios
@@ -28,6 +29,8 @@ export default function DailyWeatherCard({ style }) {
               'wind_speed_10m_max',
             ],
             timezone: 'auto',
+            temperature_unit: tempUnit.param,
+            wind_speed_unit: windUnit.param,
           },
         })
         .then((data) => {
@@ -49,7 +52,7 @@ export default function DailyWeatherCard({ style }) {
           setWeatherData(weatherByDay)
         })
     }
-  }, [coordinates])
+  }, [coordinates, tempUnit, windUnit])
   // weatherData.daily.time.map((val, index) => {
   //           return <DailyWeather key={val.date} data={val}/>
   //         })}

@@ -1,11 +1,13 @@
 'use client'
-import { useCoordinateStore } from '@/store/zustand'
+import { useWeatherStore } from '@/store/zustand'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 export default function CurrentWeatherCard({ style }) {
   const [weatherData, setWeatherData] = useState(null)
-  const coordinates = useCoordinateStore((state) => state.coordinates)
+  const coordinates = useWeatherStore((state) => state.coordinates)
+  const tempUnit = useWeatherStore((state) => state.tempUnit)
+  const windUnit = useWeatherStore((state) => state.windUnit)
   useEffect(() => {
     if (coordinates.lat !== null) {
       axios
@@ -23,6 +25,8 @@ export default function CurrentWeatherCard({ style }) {
               'weather_code',
             ],
             timezone: 'auto',
+            temperature_unit: tempUnit.param,
+            wind_speed_unit: windUnit.param,
           },
         })
         .then((data) => {
@@ -35,7 +39,7 @@ export default function CurrentWeatherCard({ style }) {
           // console.log(data.data)
         })
     }
-  }, [coordinates])
+  }, [coordinates, tempUnit, windUnit])
 
   return (
     <div className='weather__current-container' style={style}>
