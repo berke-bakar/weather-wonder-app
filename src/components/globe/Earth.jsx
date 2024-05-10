@@ -45,7 +45,7 @@ export default function Earth(props) {
 
   useFrame(({ camera, controls }, delta) => {
     if (playZoomAnimation) {
-      if (damp(camera.position, 'z', 160, 0.25, delta)) {
+      if (damp(camera.position, 'z', 220, 0.25, delta)) {
         controls.enabled = false
       } else {
         controls.enabled = true

@@ -14,6 +14,7 @@ function GlobeMarker({ children, position, scale, ...props }) {
         occlude={true}
         onOcclude={(hidden) => setVisible(!hidden)}
         scale={scale}
+        zIndexRange={[900, 999]}
         {...props}
         style={{
           transition: 'all 0.2s',
