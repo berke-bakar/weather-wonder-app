@@ -34,17 +34,28 @@ export default function WeatherResults() {
 
   return (
     <a.div className='weather__container' {...bind()} style={{ x, y, display: placeName === '' ? 'none' : 'flex' }}>
-      <h1 className='weather__city_name'>{placeName}</h1>
-      <div className='weather__tab_container'>
-        <div id={0} onClick={handleClick} className={`weather__tab ${selectedTab === 0 ? 'weather__tab-active' : ''}`}>
-          Current
-        </div>
-        <div id={1} onClick={handleClick} className={`weather__tab ${selectedTab === 1 ? 'weather__tab-active' : ''}`}>
-          Daily
+      <div className='weather__header'>
+        <h1 className='weather__city_name'>{placeName}</h1>
+        <div className='weather__type-container'>
+          <div
+            id={0}
+            className={`weather__header-item ${selectedTab === 0 ? 'weather__header-item-active' : ''}`}
+            onClick={handleClick}
+          >
+            Current
+          </div>
+          <div
+            id={1}
+            className={`weather__header-item ${selectedTab === 1 ? 'weather__header-item-active' : ''}`}
+            onClick={handleClick}
+          >
+            Daily
+          </div>
         </div>
       </div>
+
       <div className='weather__data'>
-        <CurrentWeatherCard style={{ display: `${selectedTab == 0 ? 'block' : 'none'}` }} />
+        <CurrentWeatherCard style={{ display: `${selectedTab == 0 ? 'flex' : 'none'}` }} />
         <DailyWeatherCard style={{ display: `${selectedTab == 1 ? 'flex' : 'none'}` }} />
       </div>
     </a.div>

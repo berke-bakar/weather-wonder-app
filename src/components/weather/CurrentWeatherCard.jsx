@@ -2,6 +2,12 @@
 import { useWeatherStore } from '@/store/zustand'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import styles from './CurrentWeatherCard.module.css'
+import Image from 'next/image'
+import humidityIcon from '/public/img/weather/humidity.svg'
+import pressureIcon from '/public/img/weather/barometer.svg'
+import windsockIcon from '/public/img/weather/windsock.svg'
+import { FcCalendar, FcClock, FcGlobe } from 'react-icons/fc'
 
 export default function CurrentWeatherCard({ style }) {
   const [weatherData, setWeatherData] = useState(null)
@@ -36,45 +42,103 @@ export default function CurrentWeatherCard({ style }) {
             elevation: data.data.elevation,
             timezone: data.data.timezone,
           })
-          // console.log(data.data)
+          console.log(styles)
         })
     }
   }, [coordinates, tempUnit, windUnit])
 
   return (
-    <div className='weather__current-container' style={style}>
-      <h1 className='weather__title'>Current</h1>
-      {weatherData !== null && (
-        <div>
-          <p>
-            <strong>Temperature:</strong> {weatherData.current.temperature_2m} {weatherData.units.temperature_2m}
-          </p>
-          <p>
-            <strong>Feels Like:</strong>{' '}
-            {`${weatherData.current.apparent_temperature} ${weatherData.units.apparent_temperature}`}
-          </p>
-          <p>
-            <strong>Humidity:</strong>{' '}
-            {`${weatherData.current.relative_humidity_2m} ${weatherData.units.relative_humidity_2m}`}
-          </p>
-          <p>
-            <strong>Pressure:</strong> {`${weatherData.current.pressure_msl} ${weatherData.units.pressure_msl}`}
-          </p>
-          <p>
-            <strong>Wind Speed:</strong> {`${weatherData.current.wind_speed_10m} ${weatherData.units.wind_speed_10m}`}
-          </p>
-          <p>
-            <strong>Local Date:</strong> {`${new Date(weatherData.current.time).toLocaleDateString()}`}
-          </p>
-          <p>
-            <strong>Local Time:</strong> {`${new Date(weatherData.current.time).toLocaleTimeString()}`}
-          </p>
-          <p>
-            <strong>Timezone:</strong> {`${weatherData.timezone}`}
-          </p>
+    <>
+      {weatherData !== null && weatherData.current !== null && (
+        <div className={styles['weather__current--container']} style={style}>
+          <div className={styles['weather__current--status']}>
+            <div className={styles['weather__current--img']}>PlaceHolder Image</div>
+            <div className={styles['weather__current--status-container']}>
+              <div className={styles['weather__current--temp-container']}>
+                <p className={styles['weather__current--temp']}>{weatherData.current.temperature_2m}</p>
+                <hr />
+                <p className={styles['weather__current--apptemp']}>
+                  Feels like {weatherData.current.apparent_temperature}°
+                </p>
+              </div>
+              <span className={styles['weather__current--unit']}>{weatherData.units.temperature_2m}</span>
+            </div>
+          </div>
+          <div className={styles['weather__current--misc-container']}>
+            <div className={styles['weather__current--misc-item']}>
+              <div className={styles['weather__current--misc-title']}>
+                <Image
+                  className={styles['weather__current--misc-icon']}
+                  src={humidityIcon}
+                  width={50}
+                  height={50}
+                  alt='Drop of water icon represents humidity'
+                />
+                <strong>Humidity:</strong>
+              </div>
+              <p className={styles['weather__current--misc-value']}>
+                {`${weatherData.current.relative_humidity_2m} ${weatherData.units.relative_humidity_2m}`}
+              </p>
+            </div>
+            <div className={styles['weather__current--misc-item']}>
+              <div className={styles['weather__current--misc-title']}>
+                <Image
+                  className={styles['weather__current--misc-icon']}
+                  src={pressureIcon}
+                  width={50}
+                  height={50}
+                  alt='Barometer icon to represent pressure'
+                />
+                <strong className={styles['weather__current--misc-bold']}> Pressure:</strong>
+              </div>
+              <p
+                className={styles['weather__current--misc-value']}
+              >{`${weatherData.current.pressure_msl} ${weatherData.units.pressure_msl}`}</p>
+            </div>
+            <div className={styles['weather__current--misc-item']}>
+              <div className={styles['weather__current--misc-title']}>
+                <Image
+                  className={styles['weather__current--misc-icon']}
+                  src={windsockIcon}
+                  width={50}
+                  height={50}
+                  alt='Windsok image for wind speed illustration'
+                />
+                <strong className={styles['weather__current--misc-bold']}> Wind:</strong>
+              </div>
+              <p
+                className={styles['weather__current--misc-value']}
+              >{`${weatherData.current.wind_speed_10m} ${weatherData.units.wind_speed_10m}`}</p>
+            </div>
+            <div className={styles['weather__current--misc-item']}>
+              <div className={styles['weather__current--misc-title']}>
+                <FcCalendar className={styles['weather__current--misc-icon']} size={39} />
+                <strong className={styles['weather__current--misc-bold']}> Local Date:</strong>
+              </div>
+              <p
+                className={styles['weather__current--misc-value']}
+              >{`${new Date(weatherData.current.time).toLocaleDateString()}`}</p>
+            </div>
+            <div className={styles['weather__current--misc-item']}>
+              <div className={styles['weather__current--misc-title']}>
+                <FcClock className={styles['weather__current--misc-icon']} size={50} />
+                <strong className={styles['weather__current--misc-bold']}> Time: </strong>
+              </div>
+              <p className={styles['weather__current--misc-value']}>
+                {`${new Date(weatherData.current.time).toLocaleTimeString()}`}
+              </p>
+            </div>
+            <div className={styles['weather__current--misc-item']}>
+              <div className={styles['weather__current--misc-title']}>
+                <FcGlobe className={styles['weather__current--misc-icon']} size={50} />
+                <strong className={styles['weather__current--misc-bold']}> TZ:</strong>
+              </div>
+              <p className={styles['weather__current--misc-value']}>{`${weatherData.timezone}`}</p>
+            </div>
+          </div>
         </div>
       )}
       {weatherData === null && <div>No data available</div>}
-    </div>
+    </>
   )
 }
