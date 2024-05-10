@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowLeft, FaArrowRight, FaChevronDown, FaChevronUp, FaSearchLocation } from 'react-icons/fa'
 import { useFormState } from 'react-dom'
 import { searchCity } from '@/lib/actions'
@@ -13,25 +13,47 @@ export default function SearchBar() {
   const [state, dispatch] = useFormState(searchCity, initialState)
   const [searchBarVisible, setSearchBarVisible] = useState(true)
   const [searchResultsVisible, setSearchResultsVisible] = useState(true)
+  const [isSearchBarOffScreen, setIsSearchBarOffScreen] = useState(false)
 
   const handleBarVisibilityClick = () => {
-    setSearchBarVisible(!searchBarVisible)
+    if (isSearchBarOffScreen) {
+      setSearchBarVisible(true)
+    } else {
+      setSearchBarVisible(false)
+    }
   }
   const handleResultsVisibilityClick = () => {
     setSearchResultsVisible(!searchResultsVisible)
   }
-  const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
+  const [{ x, y, width, opacity }, api] = useSpring(() => ({ x: 0, y: 0, width: '100%', opacity: 1 }))
   const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y, immediate: true }))
+
+  useEffect(() => {
+    if (!searchBarVisible) {
+      api.start({ x: 0, y: 0, immediate: false })
+      api.start({
+        width: '0%',
+        opacity: 0,
+        immediate: false,
+        onResolve: () => {
+          setIsSearchBarOffScreen(true)
+        },
+      })
+    } else {
+      api.start({ width: '100%', opacity: 1, immediate: false })
+      setIsSearchBarOffScreen(false)
+    }
+  }, [searchBarVisible, api])
 
   return (
     <a.div className='search__container' {...bind()} style={{ x, y }}>
-      {searchBarVisible && (
-        <div className='search__result-container'>
+      {!isSearchBarOffScreen && (
+        <a.div className='search__result-container' style={{ width, opacity }}>
           <form action={dispatch}>
             <div>
-              <label htmlFor='city-input' className='search__title'>
+              {/* <label htmlFor='city-input' className='search__title'>
                 Search for city:
-              </label>
+              </label> */}
               <div className='search__bar'>
                 <div className='search__input-container'>
                   <FaSearchLocation style={{ color: 'black' }} />
@@ -40,7 +62,7 @@ export default function SearchBar() {
                     name='city-input'
                     className='search__input'
                     type='text'
-                    placeholder='City Name'
+                    placeholder='Search for a city...'
                   />
                   <LoadingComponent />
                 </div>
@@ -67,7 +89,7 @@ export default function SearchBar() {
               )}
             </div>
           )}
-        </div>
+        </a.div>
       )}
       <div className='search__hide-container' onClick={handleBarVisibilityClick}>
         {searchBarVisible ? <FaArrowLeft /> : <FaArrowRight />}
