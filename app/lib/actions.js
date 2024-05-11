@@ -25,7 +25,8 @@ async function getCityData(cityName) {
                 city: `${cityName}`,
                 format: 'jsonv2',
                 limit: 10,
-                featureType: 'settlement'
+                featureType: 'settlement',
+                'accept-language': 'en-US'
             }
         })
         .then((data) => {
