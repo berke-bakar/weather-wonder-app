@@ -8,9 +8,12 @@ import humidityIcon from '/public/img/weather/humidity.svg'
 import pressureIcon from '/public/img/weather/barometer.svg'
 import windsockIcon from '/public/img/weather/windsock.svg'
 import { FcCalendar, FcClock, FcGlobe } from 'react-icons/fc'
+import { fetchWeatherResourceName } from '@/helpers/utils'
+import MoreButton from '../dom/MoreButton'
 
 export default function CurrentWeatherCard({ style }) {
   const [weatherData, setWeatherData] = useState(null)
+  const [isMoreItemShown, setIsMoreItemShown] = useState(false)
   const coordinates = useWeatherStore((state) => state.coordinates)
   const tempUnit = useWeatherStore((state) => state.tempUnit)
   const windUnit = useWeatherStore((state) => state.windUnit)
@@ -42,7 +45,6 @@ export default function CurrentWeatherCard({ style }) {
             elevation: data.data.elevation,
             timezone: data.data.timezone,
           })
-          console.log(styles)
         })
     }
   }, [coordinates, tempUnit, windUnit])
@@ -52,7 +54,14 @@ export default function CurrentWeatherCard({ style }) {
       {weatherData !== null && weatherData.current !== null && (
         <div className={styles['weather__current--container']} style={style}>
           <div className={styles['weather__current--status']}>
-            <div className={styles['weather__current--img']}>PlaceHolder Image</div>
+            <div className={styles['weather__current--img']}>
+              <Image
+                alt='Icon representing the current weather'
+                src={fetchWeatherResourceName(weatherData.current.weather_code, weatherData.current.is_day)}
+                objectFit='contain'
+                layout='fill'
+              />
+            </div>
             <div className={styles['weather__current--status-container']}>
               <div className={styles['weather__current--temp-container']}>
                 <p className={styles['weather__current--temp']}>{weatherData.current.temperature_2m}</p>
@@ -136,6 +145,12 @@ export default function CurrentWeatherCard({ style }) {
               <p className={styles['weather__current--misc-value']}>{`${weatherData.timezone}`}</p>
             </div>
           </div>
+          <MoreButton
+            onClick={() => {
+              setIsMoreItemShown(!isMoreItemShown)
+            }}
+            clicked={isMoreItemShown}
+          />
         </div>
       )}
       {weatherData === null && <div>No data available</div>}

@@ -3,7 +3,6 @@
   flex-direction: column;
   flex: 1;
   flex-wrap: nowrap;
-  gap: 2rem;
 }
 .weather__current--status {
   display: flex;
@@ -12,9 +11,10 @@
   align-items: center;
 }
 .weather__current--img {
-  background-color: white;
-  width: 150px;
-  height: 150px;
+  position: relative;
+  width: 50%;
+  /* left: 10%; */
+  height: 200px;
 }
 .weather__current--temp-container {
 }
@@ -55,6 +55,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  border-bottom: 1px solid white;
 }
 
 .weather__current--misc-title {
