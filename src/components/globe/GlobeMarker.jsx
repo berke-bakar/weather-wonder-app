@@ -1,25 +1,21 @@
 import { Html } from '@react-three/drei'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-function GlobeMarker({ children, position, scale, ...props }) {
-  const markerRef = useRef()
+function GlobeMarker({ children, position, scale = 3, ...props }) {
   const [isVisible, setVisible] = useState(false)
 
   return (
-    <group ref={markerRef}>
+    <group position={position}>
       <Html
-        position={position}
-        transform
         center
         occlude={true}
         onOcclude={(hidden) => setVisible(!hidden)}
-        scale={scale}
         zIndexRange={[900, 999]}
         {...props}
         style={{
-          transition: 'all 0.2s',
+          transition: 'all 0.4s',
           opacity: isVisible ? 1 : 0,
-          transform: `scale(${isVisible ? 1 : 0.25}) translateY(-8px)`,
+          transform: `scale(${isVisible ? scale : 0.25}) translateY(-4px)`,
         }}
       >
         {children}

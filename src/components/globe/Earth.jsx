@@ -34,7 +34,7 @@ export default function Earth(props) {
   useEffect(() => {
     if (coordinates.lat) {
       const cartesianCoords = latLngToCartesian(coordinates.lat, coordinates.lng, 100)
-      setMarkerPosition(cartesianCoords)
+      setMarkerPosition(markerPosition.clone().set(...cartesianCoords))
       const [phi, theta] = latLngToSpherical(coordinates.lat, coordinates.lng)
       // Set globe to correct angle
       euler.set(Math.PI / 2 - phi, -(Math.PI / 2 - theta), 0, 'YXZ')
@@ -67,7 +67,7 @@ export default function Earth(props) {
         scale={0.2}
         rotation={[0, -Math.PI, 0]}
       />
-      <GlobeMarker position={markerPosition} scale={15}>
+      <GlobeMarker position={markerPosition} scale={3}>
         <FaMapMarkerAlt style={{ color: 'indianred' }} className='marker' />
       </GlobeMarker>
     </a.group>
