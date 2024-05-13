@@ -1,0 +1,67 @@
+.weather__daily--container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  flex-wrap: nowrap;
+}
+
+.weather__daily--status {
+  display: flex;
+  flex: 1;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.weather__daily--img {
+  position: relative;
+  width: 50%;
+  /* left: 10%; */
+  height: 200px;
+}
+.weather__daily--temp-container {
+}
+
+.weather__daily--status-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.weather__daily--temp {
+  font-size: 4rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+.weather__daily--desc {
+  font-style: italic;
+  text-align: center;
+}
+
+.weather__daily--unit {
+  font-size: 1.5rem;
+}
+
+.weather__daily--misc-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  grid-template-rows: repeat(4, minmax(50px, 1fr));
+  font-size: 1.15rem;
+}
+
+.weather__daily--misc-icon {
+  flex-basis: 50px;
+}
+
+.weather__daily--misc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid white;
+}
+
+.weather__daily--misc-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+}

@@ -1,0 +1,32 @@
+.capsule__container {
+  border: 2px solid #fff;
+  border-radius: 500px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.capsule__item {
+  flex: 1;
+  border-right: 2px solid #fff;
+  text-align: center;
+  padding: 0.25rem 0.5rem;
+  transition:
+    background-color 0.4s ease-in,
+    color 0.4s ease-in;
+  cursor: pointer;
+}
+
+.capsule__item:first-child {
+  border-radius: 500px 0px 0px 500px;
+}
+
+.capsule__item:last-child {
+  border: none;
+  border-radius: 0px 500px 500px 0px;
+}
+
+.capsule__item--active {
+  background-color: white;
+  color: #292d39;
+}

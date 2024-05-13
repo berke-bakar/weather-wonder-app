@@ -8,7 +8,7 @@ import humidityIcon from '/public/img/weather/humidity.svg'
 import pressureIcon from '/public/img/weather/barometer.svg'
 import windsockIcon from '/public/img/weather/windsock.svg'
 import { FcCalendar, FcClock, FcGlobe } from 'react-icons/fc'
-import { fetchWeatherResourceName } from '@/helpers/utils'
+import { fetchWeatherDescription, fetchWeatherResourceName } from '@/helpers/utils'
 import MoreButton from '../dom/MoreButton'
 
 export default function CurrentWeatherCard({ style }) {
@@ -41,6 +41,8 @@ export default function CurrentWeatherCard({ style }) {
         .then((data) => {
           setWeatherData({
             current: data.data.current,
+            weatherImg: fetchWeatherResourceName(data.data.current.weather_code, data.data.current.is_day),
+            weatherDesc: fetchWeatherDescription(data.data.current.weather_code),
             units: data.data.current_units,
             elevation: data.data.elevation,
             timezone: data.data.timezone,
@@ -57,10 +59,11 @@ export default function CurrentWeatherCard({ style }) {
             <div className={styles['weather__current--img']}>
               <Image
                 alt='Icon representing the current weather'
-                src={fetchWeatherResourceName(weatherData.current.weather_code, weatherData.current.is_day)}
+                src={weatherData.weatherImg}
                 objectFit='contain'
                 layout='fill'
               />
+              <p>{weatherData.weatherDesc}</p>
             </div>
             <div className={styles['weather__current--status-container']}>
               <div className={styles['weather__current--temp-container']}>
