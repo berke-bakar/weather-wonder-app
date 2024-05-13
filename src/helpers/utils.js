@@ -20,7 +20,6 @@ export function latLngToSpherical(lat, lng) {
 // Some weather codes are very similar to each other, in order to not use different icons
 // for each we are adjusting them to use the same icons as 'adjusted' weather code
 export function fetchWeatherResourceName(weatherCode, isDay = null) {
-	console.log('Called Resource with code:', weatherCode);
 	let adjustedWeatherCode = weatherCode
 	const adjustedIsDay = isDay === null ? true : isDay
 	switch (weatherCode) {
@@ -61,12 +60,10 @@ export function fetchWeatherResourceName(weatherCode, isDay = null) {
 			adjustedWeatherCode = 96
 			break
 	}
-	console.log('weather code:', weatherCode, adjustedWeatherCode, adjustedIsDay);
 	return `/img/weather/code${adjustedWeatherCode}_${adjustedIsDay ? 'd' : 'n'}.svg`
 }
 
 export function fetchWeatherDescription(weatherCode) {
-	console.log('Called Description with code:', weatherCode);
 	switch (weatherCode) {
 		case 0:
 			return 'Clear Sky'

@@ -45,7 +45,6 @@ export default function DailyWeatherCard({ style }) {
           },
         })
         .then((data) => {
-          console.log(data)
           const weatherByDay = []
           for (let i = 0; i < data.data.daily.time.length; i++) {
             weatherByDay.push({
