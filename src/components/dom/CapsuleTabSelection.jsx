@@ -12,10 +12,6 @@ export default function CapsuleTabSelection({ tabNames, activeIndex = 0, onClick
     6: 'Saturday',
   }
 
-  //   useEffect(() => {
-  // console.log(onClickHandler);
-  //   }, [])
-
   return (
     <div className={styles['capsule__container']}>
       {tabNames.map((value, index) => {
