@@ -13,7 +13,6 @@
 .weather__current--img {
   position: relative;
   width: 50%;
-  /* left: 10%; */
   height: 200px;
 }
 .weather__current--temp-container {

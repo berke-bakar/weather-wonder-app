@@ -62,8 +62,8 @@ export default function CurrentWeatherCard({ style }) {
                 src={weatherData.weatherImg}
                 objectFit='contain'
                 layout='fill'
+                style={{ display: 'block' }}
               />
-              <p>{weatherData.weatherDesc}</p>
             </div>
             <div className={styles['weather__current--status-container']}>
               <div className={styles['weather__current--temp-container']}>
@@ -72,6 +72,8 @@ export default function CurrentWeatherCard({ style }) {
                 <p className={styles['weather__current--apptemp']}>
                   Feels like {weatherData.current.apparent_temperature}°
                 </p>
+                <hr />
+                <p className={styles['weather__current--apptemp']}>{weatherData.weatherDesc}</p>
               </div>
               <span className={styles['weather__current--unit']}>{weatherData.units.temperature_2m}</span>
             </div>
