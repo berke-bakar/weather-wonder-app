@@ -13,7 +13,7 @@ export default function WeatherResults() {
   const placeInfo = useWeatherStore((state) => state.placeInfo)
   const [selectedTab, setSelectedTab] = useState(0)
   const [isFavAnimPlaying, setIsFavAnimPlaying] = useState(false)
-  const [favoritePlaces, setFavoritePlaces] = useState([])
+  const [favoritePlaces, setFavoritePlaces] = useState(null)
 
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
   const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y, immediate: true }))
@@ -61,7 +61,7 @@ export default function WeatherResults() {
   }, [])
 
   useEffect(() => {
-    if (favoritePlaces.length > 0) {
+    if (favoritePlaces !== null) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(favoritePlaces))
     }
   }, [favoritePlaces])
