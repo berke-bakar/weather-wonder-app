@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export const useWeatherStore = create((set) => ({
     coordinates: { lat: null, lng: null },
-    placeName: '',
+    placeInfo: null,
     tempUnit: {
         param: 'celsius', name: 'Celsius (°C)'
     },
@@ -12,5 +12,5 @@ export const useWeatherStore = create((set) => ({
     setTempUnit: (param, name) => set(state => ({ ...state, tempUnit: { param: param, name: name } })),
     setWindUnit: (param, name) => set(state => ({ ...state, windUnit: { param: param, name: name } })),
     setCoordinates: (lat, lng) => set((state) => ({ ...state, coordinates: { lat: lat, lng: lng } })),
-    setPlaceName: (name) => set((state) => { return { ...state, placeName: name } })
+    setPlaceInfo: (info) => set((state) => { return { ...state, placeInfo: info } })
 }));

@@ -1,0 +1,50 @@
+.sparkles__container {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.sparkles__wrapper {
+  position: absolute;
+  display: block;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: comeInOut 700ms forwards;
+    animation-iteration-count: 1;
+  }
+}
+
+.sparkles__svg {
+  display: block;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: spin 1000ms linear;
+    animation-iteration-count: 1;
+  }
+}
+
+.sparkles__child--wrapper {
+  position: relative;
+  z-index: 10000;
+  font-weight: bold;
+}
+
+@keyframes comeInOut {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}

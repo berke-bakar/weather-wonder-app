@@ -100,9 +100,9 @@ export default function SearchBar() {
 
 function SearchResult({ placeId, placeName, data, ...props }) {
   const setCoordinates = useWeatherStore((state) => state.setCoordinates)
-  const setPlaceName = useWeatherStore((state) => state.setPlaceName)
+  const setPlaceInfo = useWeatherStore((state) => state.setPlaceInfo)
   function handleClick(evt) {
-    setPlaceName(data.placeName)
+    setPlaceInfo({ id: placeId, name: data.placeName })
     setCoordinates(data.lat, data.lon)
   }
 

@@ -1,41 +1,84 @@
 'use client'
-import React, { Suspense, memo, useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useWeatherStore } from '@/store/zustand'
 import CurrentWeatherCard from './CurrentWeatherCard'
 import DailyWeatherCard from './DailyWeatherCard'
 import { useSpring, a } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
+import FavoriteStar from '../star/FavoriteStar'
 
-function Loading() {
-  return (
-    <div>
-      <svg className='-ml-1 mr-3 size-5 animate-spin text-black' fill='none' viewBox='0 0 24 24'>
-        <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4' />
-        <path
-          className='opacity-75'
-          fill='currentColor'
-          d='M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-        />
-      </svg>
-    </div>
-  )
-}
+const LOCAL_STORAGE_KEY = 'favoritePlaces'
 
 export default function WeatherResults() {
-  const placeName = useWeatherStore((state) => state.placeName)
+  const placeInfo = useWeatherStore((state) => state.placeInfo)
   const [selectedTab, setSelectedTab] = useState(0)
+  const [isFavAnimPlaying, setIsFavAnimPlaying] = useState(false)
+  const [favoritePlaces, setFavoritePlaces] = useState([])
 
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
   const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y, immediate: true }))
+  const starColor =
+    placeInfo !== null ? (favoritePlaces?.find((val) => val.id === placeInfo.id) ? 'yellow' : 'lightgray') : 'lightgray'
 
   function handleClick(evt) {
     setSelectedTab(Number(evt.target.id))
   }
 
+  function handleFavoritePlaceClick(evt) {
+    if (placeInfo !== null) {
+      const resultArr = [...favoritePlaces]
+      let index = resultArr.findIndex((value) => {
+        return value.id === placeInfo.id
+      })
+      // Remove from favorite places if it exists
+      if (index !== -1) {
+        resultArr.splice(index, 1)
+      }
+      // Add to favorite places if it does not exists
+      else {
+        resultArr.push({ id: placeInfo.id, name: placeInfo.name })
+      }
+      setFavoritePlaces(resultArr)
+      setIsFavAnimPlaying(true)
+    }
+  }
+
+  useEffect(() => {
+    // We need to clean up the favorite animation
+    if (isFavAnimPlaying) {
+      setTimeout(() => {
+        setIsFavAnimPlaying(false)
+      }, 1000)
+    }
+  }, [isFavAnimPlaying])
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY)
+
+    if (storedData) {
+      setFavoritePlaces(JSON.parse(storedData))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (favoritePlaces.length > 0) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(favoritePlaces))
+    }
+  }, [favoritePlaces])
+
   return (
-    <a.div className='weather__container' {...bind()} style={{ x, y, display: placeName === '' ? 'none' : 'flex' }}>
+    <a.div className='weather__container' {...bind()} style={{ x, y, display: placeInfo === null ? 'none' : 'flex' }}>
       <div className='weather__header'>
-        <h1 className='weather__city_name'>{placeName}</h1>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h1 className='weather__city_name'>{placeInfo?.name}</h1>
+          <FavoriteStar
+            color={starColor}
+            onClick={handleFavoritePlaceClick}
+            showSparkles={isFavAnimPlaying}
+            sparkleCount={3}
+          />
+        </div>
+
         <div className='weather__type-container'>
           <div
             id={0}
