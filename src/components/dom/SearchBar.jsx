@@ -24,24 +24,35 @@ export default function SearchBar() {
     }
   }
   const handleResultsVisibilityClick = () => {
+    api.start({ hideSearchResultsRotate: searchResultsVisible ? 0 : 1 })
     setSearchResultsVisible(!searchResultsVisible)
   }
-  const [{ x, y, width, opacity }, api] = useSpring(() => ({ x: 0, y: 0, width: '100%', opacity: 1 }))
+  const [{ x, y, width, opacity, color, hideSearchBarRotate, hideSearchResultsRotate }, api] = useSpring(() => ({
+    x: 0,
+    y: 0,
+    width: '100%',
+    opacity: 1,
+    color: 'white',
+    hideSearchBarRotate: 0,
+    hideSearchResultsRotate: 0,
+  }))
   const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y, immediate: true }))
 
   useEffect(() => {
     if (!searchBarVisible) {
+      api.start({ color: 'transparent', immediate: true })
       api.start({ x: 0, y: 0, immediate: false })
       api.start({
         width: '0%',
         opacity: 0,
+        hideSearchBarRotate: 1,
         immediate: false,
         onResolve: () => {
           setIsSearchBarOffScreen(true)
         },
       })
     } else {
-      api.start({ width: '100%', opacity: 1, immediate: false })
+      api.start({ width: '100%', opacity: 1, hideSearchBarRotate: 0, color: 'white', immediate: false })
       setIsSearchBarOffScreen(false)
     }
   }, [searchBarVisible, api])
@@ -52,9 +63,6 @@ export default function SearchBar() {
         <a.div className='search__result-container' style={{ width, opacity }}>
           <form action={dispatch}>
             <div>
-              {/* <label htmlFor='city-input' className='search__title'>
-                Search for city:
-              </label> */}
               <div className='search__bar'>
                 <div className='search__input-container'>
                   <FaSearchLocation style={{ color: 'black' }} />
@@ -76,7 +84,14 @@ export default function SearchBar() {
                   />
                 </div>
                 <div onClick={handleResultsVisibilityClick}>
-                  {searchResultsVisible ? <FaChevronUp /> : <FaChevronDown />}
+                  {/* {searchResultsVisible ? <FaChevronUp /> : <FaChevronDown />} */}
+                  <a.div
+                    style={{
+                      transform: hideSearchResultsRotate.to([0, 1], [0, 180]).to((value) => `rotateZ(${value}deg)`),
+                    }}
+                  >
+                    <FaChevronUp />
+                  </a.div>
                 </div>
               </div>
             </div>
@@ -91,6 +106,7 @@ export default function SearchBar() {
                     placeName={item.display_name}
                     data={{ lat: Number(item.lat), lon: Number(item.lon), placeName: item.name }}
                     className={`search__result_item ${index === 0 ? 'search__result_item-first' : index === state.results.length - 1 ? 'search__result_item-last' : 'search__result_item-middle'}`}
+                    style={{ color }}
                   />
                 ))}
               {state.results.length === 0 && (
@@ -101,7 +117,13 @@ export default function SearchBar() {
         </a.div>
       )}
       <div className='search__hide-container' onClick={handleBarVisibilityClick}>
-        {searchBarVisible ? <FaArrowLeft /> : <FaArrowRight />}
+        <a.div
+          style={{
+            transform: hideSearchBarRotate.to([0, 1], [0, 180]).to((value) => `rotateZ(${value}deg)`),
+          }}
+        >
+          <FaArrowLeft />
+        </a.div>
       </div>
     </a.div>
   )
