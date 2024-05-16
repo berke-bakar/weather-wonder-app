@@ -1,6 +1,7 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaArrowLeft, FaArrowRight, FaChevronDown, FaChevronUp, FaSearchLocation } from 'react-icons/fa'
+import { IoCloseOutline } from 'react-icons/io5'
 import { useFormState } from 'react-dom'
 import { searchCity } from '@/lib/actions'
 import { useWeatherStore } from '@/store/zustand'
@@ -14,7 +15,7 @@ export default function SearchBar() {
   const [searchBarVisible, setSearchBarVisible] = useState(true)
   const [searchResultsVisible, setSearchResultsVisible] = useState(true)
   const [isSearchBarOffScreen, setIsSearchBarOffScreen] = useState(false)
-
+  const inputRef = useRef(null)
   const handleBarVisibilityClick = () => {
     if (isSearchBarOffScreen) {
       setSearchBarVisible(true)
@@ -63,8 +64,16 @@ export default function SearchBar() {
                     className='search__input'
                     type='text'
                     placeholder='Search for a city...'
+                    ref={inputRef}
                   />
                   <LoadingComponent />
+                  <IoCloseOutline
+                    className='search__clear-icon'
+                    onClick={() => {
+                      inputRef.current.value = ''
+                      inputRef.current.focus()
+                    }}
+                  />
                 </div>
                 <div onClick={handleResultsVisibilityClick}>
                   {searchResultsVisible ? <FaChevronUp /> : <FaChevronDown />}

@@ -5,7 +5,7 @@ export default function LoadingComponent() {
   const { pending } = useFormStatus()
 
   return (
-    <div>
+    <div style={{ display: pending ? 'block' : 'none' }}>
       {pending && (
         <div className='search__loading'>
           <svg className='-ml-1 mr-3 size-5 animate-spin text-black' fill='none' viewBox='0 0 24 24'>

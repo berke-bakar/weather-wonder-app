@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styles from './FavoriteStar.module.css'
 import { FaStar } from 'react-icons/fa'
 

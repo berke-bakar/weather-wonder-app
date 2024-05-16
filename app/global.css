@@ -59,6 +59,14 @@
     gap: 0.5rem;
   }
 
+  .search__clear-icon {
+    color: lightgray;
+  }
+
+  .search__clear-icon:hover {
+    color: var(--bg-weather-info);
+  }
+
   .search__hide-container {
     display: block;
     border-radius: 0px 10px 10px 0px;
@@ -92,10 +100,12 @@
   .search__input {
     /* border-radius: 10px; */
     flex: 1;
+    background: none;
   }
 
   .search__input:focus {
     outline: none;
+    background: none;
   }
 
   .search__result_item {
