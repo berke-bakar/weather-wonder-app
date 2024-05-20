@@ -1,0 +1,54 @@
+.hide__container {
+  display: block;
+  border-radius: 0px 10px 10px 0px;
+  background-color: #292d39;
+  padding: 0.5rem;
+  align-self: flex-start;
+  cursor: pointer;
+  margin-top: 5rem;
+}
+.selection__flex {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  width: 50ch;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  touch-action: none;
+}
+
+.selection__tabs--container {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  gap: 2px;
+}
+.selection__tabs--item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  background-color: #292d39bf;
+  border-radius: 10px 10px 0px 0px;
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: black;
+}
+
+.selection__tabs--active {
+  background-color: #292d39;
+  border-bottom: none;
+}
+
+.selection__item--container {
+  background-color: #292d39;
+  padding: 1rem 1rem;
+  border-radius: 0px 0px 10px 10px;
+  max-height: 40dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}

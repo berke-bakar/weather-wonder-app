@@ -2,10 +2,9 @@
 
 import { Html } from '@react-three/drei'
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
-import SearchBar from '@/components/dom/SearchBar'
 import WeatherResults from '@/components/weather/WeatherResults'
 import Settings from '@/components/dom/Settings'
+import SearchSelection from '@/components/dom/SearchSelection'
 
 const Earth = dynamic(() => import('@/components/globe/Earth').then((mod) => mod.default), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
@@ -28,7 +27,7 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 export default function Page() {
   return (
     <>
-      <SearchBar />
+      <SearchSelection />
       <WeatherResults />
       <Settings />
       <View orbit className='relative h-full sm:w-full'>
