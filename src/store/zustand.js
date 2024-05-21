@@ -12,5 +12,5 @@ export const useWeatherStore = create((set) => ({
     setTempUnit: (param, name) => set(state => ({ ...state, tempUnit: { param: param, name: name } })),
     setWindUnit: (param, name) => set(state => ({ ...state, windUnit: { param: param, name: name } })),
     setCoordinates: (lat, lng) => set((state) => ({ ...state, coordinates: { lat: lat, lng: lng } })),
-    setPlaceInfo: (info) => set((state) => { return { ...state, placeInfo: info } })
+    setPlaceInfo: (info) => set(state => ({ ...state, placeInfo: info }))
 }));

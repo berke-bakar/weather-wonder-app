@@ -73,7 +73,7 @@ export default function SearchSelection() {
               onClick={() => setSelectedTabIndex(1)}
             >
               <FaMapMarkerAlt />
-              <p>Favorite</p>
+              <p>Favorites</p>
             </div>
           </div>
           <div className={styles['selection__item--container']}>

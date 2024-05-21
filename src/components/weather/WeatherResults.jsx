@@ -11,9 +11,10 @@ const LOCAL_STORAGE_KEY = 'favoritePlaces'
 
 export default function WeatherResults() {
   const placeInfo = useWeatherStore((state) => state.placeInfo)
+  const coordinates = useWeatherStore((state) => state.coordinates)
   const [selectedTab, setSelectedTab] = useState(0)
   const [isFavAnimPlaying, setIsFavAnimPlaying] = useState(false)
-  const [favoritePlaces, setFavoritePlaces] = useState(null)
+  const [favoritePlaces, setFavoritePlaces] = useState([])
 
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
   const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y, immediate: true }))
@@ -36,7 +37,7 @@ export default function WeatherResults() {
       }
       // Add to favorite places if it does not exists
       else {
-        resultArr.push({ id: placeInfo.id, name: placeInfo.name })
+        resultArr.push({ ...placeInfo, ...coordinates })
       }
       setFavoritePlaces(resultArr)
       setIsFavAnimPlaying(true)

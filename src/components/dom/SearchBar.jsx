@@ -85,7 +85,7 @@ function SearchResult({ placeId, placeName, data, ...props }) {
   const setCoordinates = useWeatherStore((state) => state.setCoordinates)
   const setPlaceInfo = useWeatherStore((state) => state.setPlaceInfo)
   function handleClick(evt) {
-    setPlaceInfo({ id: placeId, name: data.placeName })
+    setPlaceInfo({ id: placeId, name: data.placeName, detailedName: placeName })
     setCoordinates(data.lat, data.lon)
   }
 
