@@ -1,0 +1,42 @@
+.weather__hourly--container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(24, 1fr);
+  flex: 1;
+  max-height: 40dvh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.weather__hourly--flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather__hourly--row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1fr;
+  border-bottom: 1px solid lightgray;
+  justify-items: center;
+}
+
+.weather__hourly--row:last-child {
+  border-bottom: none;
+}
+
+.weather__hourly--item {
+  align-self: center;
+}
+
+.weather__hourly--header {
+  text-align: center;
+}
+.weather__hourly--header:first-child {
+}
+
+.weather__hourly--item:first-child {
+  border-right: 1px solid white;
+  padding: 0.2rem 1rem;
+}

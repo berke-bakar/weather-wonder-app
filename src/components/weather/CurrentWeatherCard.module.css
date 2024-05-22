@@ -47,6 +47,7 @@
 
 .weather__current--misc-icon {
   flex-basis: 50px;
+  color: black;
 }
 
 .weather__current--misc-item {

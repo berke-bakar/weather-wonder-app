@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from './CapsuleTabSelection.module.css'
 
 export default function CapsuleTabSelection({ tabNames, activeIndex = 0, onClickHandler = null }) {

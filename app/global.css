@@ -260,8 +260,7 @@
     display: flex;
     border-radius: 10px;
     align-items: center;
-    flex-wrap: wrap;
-    min-width: 25ch;
+    min-width: 45ch;
   }
 
   .weather__header-item {
