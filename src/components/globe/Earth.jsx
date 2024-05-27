@@ -9,6 +9,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useWeatherStore } from '@/store/zustand'
 import { latLngToCartesian, latLngToSpherical } from '@/helpers/utils'
 import { damp } from 'maath/easing'
+import { useMediaQuery } from 'react-responsive'
 
 export default function Earth(props) {
   const groupRef = useRef(null)
@@ -16,14 +17,14 @@ export default function Earth(props) {
   const [markerPosition, setMarkerPosition] = useState(new Vector3(0, 0, 0))
   const [playZoomAnimation, setPlayZoomAnimation] = useState(false)
   const { size } = useThree()
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
   const euler = useMemo(() => new Euler(0, 0, 0, 'YXZ'), [])
   const [globeSpring, globeApi] = useSpring(() => ({
     rotation: [0, 0, 0],
   }))
   const bind = useDrag(({ delta: [dx, dy] }) => {
-    // TODO: Add this as configurable option
-    const responsiveness = 20
+    const responsiveness = isTabletOrMobile ? 10 : 20
     euler.y += (dx / size.width) * responsiveness
     euler.x += (dy / size.width) * responsiveness
     euler.x = MathUtils.clamp(euler.x, -Math.PI / 2, Math.PI / 2)
@@ -68,7 +69,7 @@ export default function Earth(props) {
         rotation={[0, -Math.PI, 0]}
       />
       <GlobeMarker position={markerPosition} scale={3}>
-        <FaMapMarkerAlt style={{ color: 'indianred' }} className='marker' />
+        <FaMapMarkerAlt style={{ color: 'indianred', cursor: 'pointer' }} />
       </GlobeMarker>
     </a.group>
   )
