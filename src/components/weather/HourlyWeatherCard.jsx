@@ -22,7 +22,7 @@ export default function HourlyWeatherCard({ data, units, style, ...props }) {
             <div className={styles['weather__hourly--header']}>Feels Like</div>
             <div className={styles['weather__hourly--header']}>Humidity</div>
             <div className={styles['weather__hourly--header']}>Chance of Rain</div>
-            <div className={styles['weather__hourly--header']}>Wind Speed</div>
+            <div className={styles['weather__hourly--header']}>Wind</div>
           </div>
           <div className={styles['weather__hourly--container']}>
             {Array.from({ length: 24 }).map((val, idx) => {

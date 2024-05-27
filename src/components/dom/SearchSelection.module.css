@@ -52,3 +52,25 @@
   overflow-x: hidden;
   scrollbar-width: thin;
 }
+
+/* 2xl */
+@media (max-width: 1536px) {
+  .selection__flex {
+    width: 45ch;
+  }
+}
+/* xl */
+@media (max-width: 1280px) {
+}
+/* lg */
+@media (max-width: 1024px) {
+}
+/* md */
+@media (max-width: 768px) {
+}
+/* sm */
+@media (max-width: 640px) {
+}
+/* xs */
+@media (max-width: 475px) {
+}

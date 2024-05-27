@@ -15,7 +15,7 @@ export default function DailyWeatherCard({ data, units, style }) {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
 
   return (
-    <div className='weather__daily-container' style={style}>
+    <div className={styles['weather__daily-container']} style={style}>
       <div>
         {data !== null && (
           <div className={styles['weather__daily--container']} style={style}>

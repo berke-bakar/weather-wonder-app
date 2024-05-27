@@ -9,6 +9,7 @@ import FavoriteStar from '../star/FavoriteStar'
 import HourlyWeatherCard from './HourlyWeatherCard'
 import { fetchWeatherDescription, fetchWeatherResourceName } from '@/helpers/utils'
 import axios from 'axios'
+import styles from './WeatherResults.module.css'
 
 const LOCAL_STORAGE_KEY = 'favoritePlaces'
 
@@ -211,10 +212,14 @@ export default function WeatherResults() {
   }, [favoritePlaces])
 
   return (
-    <a.div className='weather__container' {...bind()} style={{ x, y, display: placeInfo === null ? 'none' : 'flex' }}>
-      <div className='weather__header'>
+    <a.div
+      className={styles['weather__container']}
+      {...bind()}
+      style={{ x, y, display: placeInfo === null ? 'none' : 'flex' }}
+    >
+      <div className={styles['weather__header']}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h1 className='weather__city_name'>{placeInfo?.name}</h1>
+          <h1 className={styles['weather__city_name']}>{placeInfo?.name}</h1>
           <FavoriteStar
             color={starColor}
             onClick={handleFavoritePlaceClick}
@@ -223,24 +228,24 @@ export default function WeatherResults() {
           />
         </div>
 
-        <div className='weather__type-container'>
+        <div className={styles['weather__type-container']}>
           <div
             id={0}
-            className={`weather__header-item ${selectedTab === 0 ? 'weather__header-item-active' : ''}`}
+            className={`${styles['weather__header-item']} ${selectedTab === 0 ? styles['weather__header-item-active'] : ''}`}
             onClick={handleTabChangeClick}
           >
             Current
           </div>
           <div
             id={1}
-            className={`weather__header-item ${selectedTab === 1 ? 'weather__header-item-active' : ''}`}
+            className={`${styles['weather__header-item']} ${selectedTab === 1 ? styles['weather__header-item-active'] : ''}`}
             onClick={handleTabChangeClick}
           >
             Hourly
           </div>
           <div
             id={2}
-            className={`weather__header-item ${selectedTab === 2 ? 'weather__header-item-active' : ''}`}
+            className={`${styles['weather__header-item']} ${selectedTab === 2 ? styles['weather__header-item-active'] : ''}`}
             onClick={handleTabChangeClick}
           >
             Daily
@@ -248,7 +253,7 @@ export default function WeatherResults() {
         </div>
       </div>
 
-      <div className='weather__data'>
+      <div className={styles['weather__data']}>
         <CurrentWeatherCard
           key={0}
           data={currentData}

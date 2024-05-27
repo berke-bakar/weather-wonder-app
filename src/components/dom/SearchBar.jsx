@@ -7,6 +7,7 @@ import { searchCity } from '@/lib/actions'
 import { useWeatherStore } from '@/store/zustand'
 import LoadingComponent from './LoadingComponent'
 import { useSpring, a } from '@react-spring/web'
+import styles from './SearchBar.module.css'
 
 export default function SearchBar() {
   const initialState = { results: [], error: '' }
@@ -24,23 +25,23 @@ export default function SearchBar() {
 
   return (
     <a.div>
-      <a.div className='search__result-container'>
+      <a.div className={styles['search__result-container']}>
         <form action={dispatch}>
           <div>
-            <div className='search__bar'>
-              <div className='search__input-container'>
+            <div className={styles['search__bar']}>
+              <div className={styles['search__input-container']}>
                 <FaSearchLocation style={{ color: 'black' }} />
                 <input
                   id='city-input'
                   name='city-input'
-                  className='search__input'
+                  className={styles['search__input']}
                   type='text'
                   placeholder='Search for a city...'
                   ref={inputRef}
                 />
                 <LoadingComponent />
                 <IoCloseOutline
-                  className='search__clear-icon'
+                  className={styles['search__clear-icon']}
                   onClick={() => {
                     inputRef.current.value = ''
                     inputRef.current.focus()
@@ -60,7 +61,7 @@ export default function SearchBar() {
           </div>
         </form>
         {searchResultsVisible && (
-          <div className='search__results'>
+          <div className={styles['search__results']}>
             {state.results.length !== 0 &&
               state.results.map((item, index) => (
                 <SearchResult
@@ -68,11 +69,13 @@ export default function SearchBar() {
                   placeId={item.place_id}
                   placeName={item.display_name}
                   data={{ lat: Number(item.lat), lon: Number(item.lon), placeName: item.name }}
-                  className={`search__result_item ${index === 0 ? 'search__result_item-first' : index === state.results.length - 1 ? 'search__result_item-last' : 'search__result_item-middle'}`}
+                  className={`${styles['search__result_item']} ${index === 0 ? styles['search__result_item-first'] : index === state.results.length - 1 ? styles['search__result_item-last'] : styles['search__result_item-middle']}`}
                 />
               ))}
             {state.results.length === 0 && (
-              <div className='search__result_item search__result_item-middle'>No results found.</div>
+              <div className={`${styles['search__result_item']} ${styles['search__result_item-middle']}`}>
+                No results found.
+              </div>
             )}
           </div>
         )}

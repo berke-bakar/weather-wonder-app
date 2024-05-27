@@ -33,8 +33,6 @@
 .weather__hourly--header {
   text-align: center;
 }
-.weather__hourly--header:first-child {
-}
 
 .weather__hourly--item:first-child {
   border-right: 1px solid white;

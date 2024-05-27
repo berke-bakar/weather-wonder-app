@@ -1,0 +1,20 @@
+.search__result_item {
+  background-color: #715df286;
+  padding: 1rem 2rem;
+  margin-bottom: 5px;
+  max-width: 45ch;
+  cursor: pointer;
+  user-select: none;
+}
+
+.search__result_item:hover {
+  background-color: var(--colors-primary);
+}
+
+.search__result_item-first {
+  border-radius: 10px 10px 0 0;
+}
+
+.search__result_item-last {
+  border-radius: 0 0 10px 10px;
+}

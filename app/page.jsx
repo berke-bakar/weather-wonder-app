@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import WeatherResults from '@/components/weather/WeatherResults'
 import Settings from '@/components/dom/Settings'
 import SearchSelection from '@/components/dom/SearchSelection'
+import { useMediaQuery } from 'react-responsive'
 
 const Earth = dynamic(() => import('@/components/globe/Earth').then((mod) => mod.default), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
@@ -25,6 +26,14 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
+  const is2xl = useMediaQuery({ maxWidth: 1536 })
+  const isXl = useMediaQuery({ maxWidth: 1280 })
+  const isLg = useMediaQuery({ maxWidth: 1024 })
+  const isMd = useMediaQuery({ maxWidth: 768 })
+  const isSm = useMediaQuery({ maxWidth: 640 })
+  const isXs = useMediaQuery({ maxWidth: 475 })
+
+  const titlePosY = isXs ? 120 : isSm ? 125 : isMd ? 130 : isLg ? 135 : isXl ? 140 : is2xl ? 145 : 150
   return (
     <>
       <SearchSelection />
@@ -32,11 +41,10 @@ export default function Page() {
       <Settings />
       <View orbit className='relative h-full sm:w-full'>
         <Html
-          position={[0, 150, 0]}
+          position={[0, titlePosY, 0]}
           transform
           center
           wrapperClass='page__title'
-          className='text-5xl lg:text-6xl xl:text-8xl'
           as='h1'
           distanceFactor={100}
           occlude

@@ -2,6 +2,7 @@ import { IconContext } from 'react-icons'
 import { GoGear } from 'react-icons/go'
 import React, { useState } from 'react'
 import { useWeatherStore } from '@/store/zustand'
+import styles from './Settings.module.css'
 
 export default function Settings() {
   const [showSettings, setShowSettings] = useState(false)
@@ -25,25 +26,25 @@ export default function Settings() {
   ]
 
   return (
-    <div className='settings-container'>
-      <div className='settings__icon' onClick={() => setShowSettings(!showSettings)}>
+    <div className={styles['settings-container']}>
+      <div className={styles['settings__icon']} onClick={() => setShowSettings(!showSettings)}>
         <IconContext.Provider value={{ size: '2rem', color: 'inherit' }}>
           <GoGear />
         </IconContext.Provider>
       </div>
       {showSettings && (
-        <div className='settings__selection'>
+        <div className={styles['settings__selection']}>
           {unitData.map((value, index) => {
             return (
-              <div key={index} className='settings__unit'>
-                <h1 className='settings__unit-title'>{value.title}</h1>
-                <div className='settings__unit-container'>
+              <div key={index} className={styles['settings__unit']}>
+                <h1 className={styles['settings__unit-title']}>{value.title}</h1>
+                <div className={styles['settings__unit-container']}>
                   {value.names.map((innerValue, innerIndex) => {
                     const isActive = value.type === 'temp' ? tempUnit.name === innerValue : windUnit.name === innerValue
                     return (
                       <div
                         key={innerIndex}
-                        className={`settings__unit-item ${isActive ? 'settings__unit-item-active' : ''}`}
+                        className={`${styles['settings__unit-item']} ${isActive ? styles['settings__unit-item-active'] : ''}`}
                         onClick={() => {
                           return value.type === 'temp'
                             ? setTempUnit(value.params[innerIndex], innerValue)

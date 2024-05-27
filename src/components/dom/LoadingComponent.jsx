@@ -1,5 +1,6 @@
 'use client'
 import { useFormStatus } from 'react-dom'
+import styles from './SearchBar.module.css'
 
 export default function LoadingComponent() {
   const { pending } = useFormStatus()
@@ -7,7 +8,7 @@ export default function LoadingComponent() {
   return (
     <div style={{ display: pending ? 'block' : 'none' }}>
       {pending && (
-        <div className='search__loading'>
+        <div className={styles['search__loading']}>
           <svg className='-ml-1 mr-3 size-5 animate-spin text-black' fill='none' viewBox='0 0 24 24'>
             <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4' />
             <path
