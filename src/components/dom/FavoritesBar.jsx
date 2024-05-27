@@ -18,7 +18,7 @@ export default function FavoritesBar() {
   }, [])
 
   return (
-    <div>
+    <div className={styles['fav__container']}>
       {favoritePlaces.length !== 0 &&
         favoritePlaces.map((item, index) => (
           <div
@@ -34,8 +34,18 @@ export default function FavoritesBar() {
         ))}
       {favoritePlaces.length === 0 && (
         <div className={`${styles['search__result_item']} ${styles['search__result_item-middle']}`}>
-          You can access your favorite places easily from here. Start by clicking star icon on selected places weather
-          card
+          You can access your favorite places easily from here.
+          <br />
+          <br />
+          <ol className={styles['fav__ins-list']}>
+            <li className={styles['fav__ins-item']}>
+              Search for a place in previous <code>Search</code> tab
+            </li>
+            <li className={styles['fav__ins-item']}>Click on desired location</li>
+            <li className={styles['fav__ins-item']}>Click on the star icon next to the location name</li>
+            <li className={styles['fav__ins-item']}>Profit ???</li>
+            <li className={styles['fav__ins-item']}>Check this tab again</li>
+          </ol>
         </div>
       )}
     </div>

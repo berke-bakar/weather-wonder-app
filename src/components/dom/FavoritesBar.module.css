@@ -1,8 +1,12 @@
+.fav__container {
+  width: 100%;
+  padding: 1rem 0.5rem;
+}
+
 .search__result_item {
   background-color: #715df286;
   padding: 1rem 2rem;
   margin-bottom: 5px;
-  max-width: 45ch;
   cursor: pointer;
   user-select: none;
 }
@@ -17,4 +21,21 @@
 
 .search__result_item-last {
   border-radius: 0 0 10px 10px;
+}
+
+.fav__ins-list {
+  list-style-position: inside;
+  counter-reset: list;
+}
+
+.fav__ins-item {
+  counter-increment: list;
+}
+
+.fav__ins-item::marker {
+  color: #fff;
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 1.1rem;
+  content: 'Step ' counter(list) ': ';
 }
