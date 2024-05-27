@@ -3,6 +3,7 @@ import { GoGear } from 'react-icons/go'
 import React, { useState } from 'react'
 import { useWeatherStore } from '@/store/zustand'
 import styles from './Settings.module.css'
+import { useMediaQuery } from 'react-responsive'
 
 export default function Settings() {
   const [showSettings, setShowSettings] = useState(false)
@@ -10,15 +11,16 @@ export default function Settings() {
   const tempUnit = useWeatherStore((state) => state.tempUnit)
   const setWindUnit = useWeatherStore((state) => state.setWindUnit)
   const windUnit = useWeatherStore((state) => state.windUnit)
+  const isLg = useMediaQuery({ maxWidth: 1280 })
   const unitData = [
     {
-      title: 'Temperature Unit:',
-      names: ['Celsius (°C)', 'Fahrenheit (°F)'],
+      title: 'Temperature:',
+      names: [!isLg ? 'Celsius (°C)' : '°C', !isLg ? 'Fahrenheit (°F)' : '°F'],
       params: ['celsius', 'fahrenheit'],
       type: 'temp',
     },
     {
-      title: 'Wind Speed Unit:',
+      title: 'Wind Speed:',
       names: ['km/h', 'm/s', 'mph', 'Knots'],
       params: ['kmh', 'ms', 'mph', 'kn'],
       type: 'wind',
@@ -38,9 +40,12 @@ export default function Settings() {
             return (
               <div key={index} className={styles['settings__unit']}>
                 <h1 className={styles['settings__unit-title']}>{value.title}</h1>
-                <div className={styles['settings__unit-container']}>
+                <div className={`${styles['settings__unit-container']} ${styles[`settings__unit-${value.type}`]}`}>
                   {value.names.map((innerValue, innerIndex) => {
-                    const isActive = value.type === 'temp' ? tempUnit.name === innerValue : windUnit.name === innerValue
+                    const isActive =
+                      value.type === 'temp'
+                        ? tempUnit.name.includes(innerValue) || innerValue.includes(tempUnit.name)
+                        : windUnit.name.includes(innerValue) || innerValue.includes(windUnit.name)
                     return (
                       <div
                         key={innerIndex}
