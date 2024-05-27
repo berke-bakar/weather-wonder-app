@@ -14,6 +14,7 @@ export default function SearchBar() {
   const [state, dispatch] = useFormState(searchCity, initialState)
   const [searchResultsVisible, setSearchResultsVisible] = useState(false)
   const inputRef = useRef(null)
+  const formRef = useRef(null)
 
   const handleResultsVisibilityClick = () => {
     api.start({ hideSearchResultsRotate: searchResultsVisible ? 1 : 0 })
@@ -25,7 +26,7 @@ export default function SearchBar() {
 
   return (
     <a.div className={styles['search__result-container']}>
-      <form action={dispatch}>
+      <form action={dispatch} ref={formRef}>
         <div className={styles['search__bar']}>
           <div className={styles['search__input-container']}>
             <FaSearchLocation style={{ color: 'black' }} />
@@ -36,6 +37,12 @@ export default function SearchBar() {
               type='text'
               placeholder='Search for a city...'
               ref={inputRef}
+              onKeyUp={(e) => {
+                if (e.bubbles && !e.cancelable && e.key === 'Unidentified') {
+                  formRef.current.requestSubmit()
+                  setSearchResultsVisible(true)
+                }
+              }}
             />
             <LoadingComponent />
             <IoCloseOutline
@@ -71,7 +78,7 @@ export default function SearchBar() {
             ))}
           {state.results.length === 0 && (
             <div className={`${styles['search__result_item']} ${styles['search__result_item-middle']}`}>
-              No results found.
+              {state.error ? state.error : 'No results found.'}
             </div>
           )}
         </div>
