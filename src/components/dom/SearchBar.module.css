@@ -48,9 +48,12 @@
   background-color: #715df286;
   padding: 1rem 2rem;
   margin-bottom: 5px;
-  max-width: 45ch;
   cursor: pointer;
   user-select: none;
+}
+
+.search__result_item > p {
+  max-width: 40ch;
 }
 
 .search__result_item:hover {

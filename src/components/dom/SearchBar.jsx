@@ -90,7 +90,7 @@ function SearchResult({ placeId, placeName, data, ...props }) {
 
   return (
     <a.div {...props} onClick={handleClick}>
-      {placeName}
+      <p>{placeName}</p>
     </a.div>
   )
 }
