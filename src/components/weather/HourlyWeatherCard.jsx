@@ -1,15 +1,11 @@
 import styles from './HourlyWeatherCard.module.css'
 import CapsuleTabSelection from '../dom/CapsuleTabSelection'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 
 export default function HourlyWeatherCard({ data, units, style, ...props }) {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
-
-  useEffect(() => {
-    console.log(data)
-  }, [data])
 
   return (
     <div className={styles['weather__hourly--flex']} style={style}>
