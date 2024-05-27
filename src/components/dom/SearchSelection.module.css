@@ -48,7 +48,4 @@
   background-color: #292d39;
   border-radius: 0px 0px 10px 10px;
   max-height: 40dvh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
 }
