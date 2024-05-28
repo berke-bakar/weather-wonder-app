@@ -1,17 +1,18 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronUp, FaSearchLocation } from 'react-icons/fa'
 import { IoCloseOutline } from 'react-icons/io5'
-import { useFormState } from 'react-dom'
-import { searchCity } from '@/lib/actions'
 import { useWeatherStore } from '@/store/zustand'
 import LoadingComponent from './LoadingComponent'
 import { useSpring, a } from '@react-spring/web'
 import styles from './SearchBar.module.css'
+import axios from 'axios'
 
 export default function SearchBar() {
   const initialState = { results: [], error: '' }
-  const [state, dispatch] = useFormState(searchCity, initialState)
+  const [selectedCity, setSelectedCity] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [searchResults, setSearchResults] = useState(initialState)
   const [searchResultsVisible, setSearchResultsVisible] = useState(false)
   const inputRef = useRef(null)
   const formRef = useRef(null)
@@ -24,9 +25,42 @@ export default function SearchBar() {
     hideSearchResultsRotate: 1,
   }))
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (selectedCity !== inputRef.current.value) {
+      setIsLoading(true)
+      setSelectedCity(inputRef.current.value)
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await axios.get('https://nominatim.openstreetmap.org/search', {
+          params: {
+            city: selectedCity,
+            format: 'jsonv2',
+            limit: 10,
+            featureType: 'settlement',
+            'accept-language': 'en-US',
+          },
+        })
+        setSearchResults({ results: data.data, error: '' })
+      } catch (e) {
+        setSearchResults({ results: [], error: 'Error happened while getting city information.' })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    if (selectedCity) {
+      fetchData()
+    }
+  }, [selectedCity])
+
   return (
     <a.div className={styles['search__result-container']}>
-      <form action={dispatch} ref={formRef}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <div className={styles['search__bar']}>
           <div className={styles['search__input-container']}>
             <FaSearchLocation style={{ color: 'black' }} />
@@ -44,7 +78,7 @@ export default function SearchBar() {
                 }
               }}
             />
-            <LoadingComponent />
+            <LoadingComponent enabled={isLoading} />
             <IoCloseOutline
               className={styles['search__clear-icon']}
               onClick={() => {
@@ -66,19 +100,19 @@ export default function SearchBar() {
       </form>
       {searchResultsVisible && (
         <div className={styles['search__results']} style={{ touchAction: 'pan-y' }}>
-          {state.results.length !== 0 &&
-            state.results.map((item, index) => (
+          {searchResults.results.length !== 0 &&
+            searchResults.results.map((item, index) => (
               <SearchResult
                 key={item.place_id}
                 placeId={item.place_id}
                 placeName={item.display_name}
                 data={{ lat: Number(item.lat), lon: Number(item.lon), placeName: item.name }}
-                className={`${styles['search__result_item']} ${index === 0 ? styles['search__result_item-first'] : index === state.results.length - 1 ? styles['search__result_item-last'] : styles['search__result_item-middle']}`}
+                className={`${styles['search__result_item']} ${index === 0 ? styles['search__result_item-first'] : index === searchResults.results.length - 1 ? styles['search__result_item-last'] : styles['search__result_item-middle']}`}
               />
             ))}
-          {state.results.length === 0 && (
+          {searchResults.results.length === 0 && (
             <div className={`${styles['search__result_item']} ${styles['search__result_item-middle']}`}>
-              {state.error ? state.error : 'No results found.'}
+              {searchResults.error ? searchResults.error : 'No results found.'}
             </div>
           )}
         </div>
