@@ -10,6 +10,7 @@ import HourlyWeatherCard from './HourlyWeatherCard'
 import { fetchWeatherDescription, fetchWeatherResourceName } from '@/helpers/utils'
 import axios from 'axios'
 import styles from './WeatherResults.module.css'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 const LOCAL_STORAGE_KEY = 'favoritePlaces'
 
@@ -33,10 +34,6 @@ export default function WeatherResults() {
   const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y, immediate: true }))
   const starColor =
     placeInfo !== null ? (favoritePlaces?.find((val) => val.id === placeInfo.id) ? 'yellow' : 'lightgray') : 'lightgray'
-
-  function handleTabChangeClick(evt) {
-    setSelectedTab(Number(evt.target.id))
-  }
 
   function handleFavoritePlaceClick(evt) {
     if (placeInfo !== null) {
@@ -218,7 +215,7 @@ export default function WeatherResults() {
       style={{ x, y, display: placeInfo === null ? 'none' : 'flex' }}
     >
       <div className={styles['weather__header']}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <h1 className={styles['weather__city_name']}>{placeInfo?.name}</h1>
           <FavoriteStar
             color={starColor}
@@ -227,30 +224,8 @@ export default function WeatherResults() {
             sparkleCount={3}
           />
         </div>
-
-        <div className={styles['weather__type-container']}>
-          <div
-            id={0}
-            className={`${styles['weather__header-item']} ${selectedTab === 0 ? styles['weather__header-item-active'] : ''}`}
-            onClick={handleTabChangeClick}
-          >
-            Current
-          </div>
-          <div
-            id={1}
-            className={`${styles['weather__header-item']} ${selectedTab === 1 ? styles['weather__header-item-active'] : ''}`}
-            onClick={handleTabChangeClick}
-          >
-            Hourly
-          </div>
-          <div
-            id={2}
-            className={`${styles['weather__header-item']} ${selectedTab === 2 ? styles['weather__header-item-active'] : ''}`}
-            onClick={handleTabChangeClick}
-          >
-            Daily
-          </div>
-        </div>
+        <TabWeatherTypeSelection selectedTab={selectedTab} notify={setSelectedTab} />
+        <CounterWeatherTypeSelection selectedTab={selectedTab} notify={setSelectedTab} />
       </div>
 
       <div className={styles['weather__data']}>
@@ -275,5 +250,57 @@ export default function WeatherResults() {
         />
       </div>
     </a.div>
+  )
+}
+
+function TabWeatherTypeSelection({ selectedTab, notify }) {
+  return (
+    <div className={styles['weather__type-container']}>
+      <div
+        id={0}
+        className={`${styles['weather__header-item']} ${selectedTab === 0 ? styles['weather__header-item-active'] : ''}`}
+        onClick={() => notify(0)}
+      >
+        Current
+      </div>
+      <div
+        id={1}
+        className={`${styles['weather__header-item']} ${selectedTab === 1 ? styles['weather__header-item-active'] : ''}`}
+        onClick={() => notify(1)}
+      >
+        Hourly
+      </div>
+      <div
+        id={2}
+        className={`${styles['weather__header-item']} ${selectedTab === 2 ? styles['weather__header-item-active'] : ''}`}
+        onClick={() => notify(2)}
+      >
+        Daily
+      </div>
+    </div>
+  )
+}
+
+function CounterWeatherTypeSelection({ selectedTab, notify }) {
+  return (
+    <div className={`${styles['weather__type-container--counter']} ${styles['weather__type-container']}`}>
+      <div
+        id={0}
+        className={`${styles['weather__header-item--counter']}`}
+        onClick={() => notify((((selectedTab - 1) % 3) + 3) % 3)}
+      >
+        <FaChevronLeft size={16} />
+      </div>
+      <div id={1} className={`${styles['weather__header-item--counter']}`}>
+        {selectedTab === 0 ? 'Current' : selectedTab === 1 ? 'Hourly' : 'Daily'}
+      </div>
+      <div
+        id={2}
+        className={`${styles['weather__header-item--counter']}`}
+        onClick={() => notify((selectedTab + 1) % 3)}
+      >
+        <FaChevronRight size={16} />
+      </div>
+    </div>
   )
 }

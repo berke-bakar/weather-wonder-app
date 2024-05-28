@@ -18,10 +18,11 @@ export default function SearchBar() {
   const inputRef = useRef(null)
   const formRef = useRef(null)
 
-  const handleResultsVisibilityClick = () => {
-    api.start({ hideSearchResultsRotate: searchResultsVisible ? 1 : 0 })
-    setSearchResultsVisible(!searchResultsVisible)
+  const handleResultsVisibilityAnim = (isOpen) => {
+    api.start({ hideSearchResultsRotate: !isOpen ? 1 : 0 })
+    setSearchResultsVisible(isOpen)
   }
+
   const [{ hideSearchResultsRotate }, api] = useSpring(() => ({
     hideSearchResultsRotate: 1,
   }))
@@ -51,6 +52,7 @@ export default function SearchBar() {
         setSearchResults({ results: [], error: 'Error happened while getting city information.' })
       } finally {
         setIsLoading(false)
+        handleResultsVisibilityAnim(true)
       }
     }
 
@@ -75,7 +77,7 @@ export default function SearchBar() {
               onKeyUp={(e) => {
                 if (e.bubbles && !e.cancelable && e.key === 'Unidentified') {
                   formRef.current.requestSubmit()
-                  setSearchResultsVisible(true)
+                  handleResultsVisibilityAnim(true)
                 }
               }}
             />
@@ -88,7 +90,10 @@ export default function SearchBar() {
               }}
             />
           </div>
-          <div className={styles['search__result-hide']} onClick={handleResultsVisibilityClick}>
+          <div
+            className={styles['search__result-hide']}
+            onClick={() => handleResultsVisibilityAnim(!searchResultsVisible)}
+          >
             <a.div
               style={{
                 transform: hideSearchResultsRotate.to([0, 1], [0, 180]).to((value) => `rotateZ(${value}deg)`),
@@ -109,7 +114,7 @@ export default function SearchBar() {
                 placeName={item.display_name}
                 data={{ lat: Number(item.lat), lon: Number(item.lon), placeName: item.name }}
                 className={`${styles['search__result_item']} ${index === 0 ? styles['search__result_item-first'] : index === searchResults.results.length - 1 ? styles['search__result_item-last'] : styles['search__result_item-middle']}`}
-                notify={handleResultsVisibilityClick}
+                notify={handleResultsVisibilityAnim}
               />
             ))}
           {searchResults.results.length === 0 && (
@@ -131,7 +136,7 @@ function SearchResult({ placeId, placeName, data, notify, ...props }) {
     setPlaceInfo({ id: placeId, name: data.placeName, detailedName: placeName })
     setCoordinates(data.lat, data.lon)
     if (isTabletOrMobile) {
-      notify()
+      notify(false)
     }
   }
 

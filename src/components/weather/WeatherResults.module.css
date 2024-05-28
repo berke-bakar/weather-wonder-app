@@ -4,9 +4,9 @@
   left: 52.5%;
   z-index: 1000;
   color: #fff;
-  max-width: 40ch;
-  min-width: 25dvw;
+  max-width: 90dvw;
   min-height: 30dvh;
+  max-height: 90dvh;
   border-radius: 10px;
   padding: 1rem 1rem;
   display: flex;
@@ -19,6 +19,7 @@
 .weather__header {
   display: flex;
   justify-content: space-between;
+  gap: 0.5rem;
   align-items: center;
 }
 
@@ -27,18 +28,43 @@
   display: flex;
   border-radius: 10px;
   align-items: center;
-  min-width: 45ch;
+}
+
+.weather__type-container--counter {
+  border-radius: 9999px;
+  display: none;
 }
 
 .weather__header-item {
-  text-align: center;
-  flex: 1 0 90px;
+  align-self: center;
+  flex: 1 1;
   border-right: 2px solid #fff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   cursor: pointer;
   transition:
     background-color 0.3s ease-in,
     color 0.3s ease-in;
+}
+
+.weather__header-item--counter {
+  align-self: center;
+  flex: 1 1;
+  padding: 0.5rem;
+  cursor: pointer;
+  height: 100%;
+  transition: background-color 0.2s ease-in;
+}
+
+.weather__header-item--counter:nth-child(odd):hover {
+  background-color: hsla(224, 15%, 19%, 0.249);
+}
+
+.weather__header-item--counter:first-child {
+  border-radius: 9999px 0px 0px 9999px;
+}
+
+.weather__header-item--counter:last-child {
+  border-radius: 0px 9999px 9999px 0px;
 }
 
 .weather__header-item:last-child {
@@ -71,12 +97,20 @@
 }
 
 .weather__city_name {
-  font-size: 2rem;
-  margin: 1rem;
+  font-size: 1.5rem;
 }
 
 .weather__data {
-  padding: 1rem 1rem;
   flex: 1;
   display: flex;
+}
+
+/* md */
+@media (max-width: 768px) {
+  .weather__type-container {
+    display: none;
+  }
+  .weather__type-container--counter {
+    display: flex;
+  }
 }

@@ -1,15 +1,16 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styles from './CurrentWeatherCard.module.css'
 import Image from 'next/image'
 import humidityIcon from '/public/img/weather/humidity.svg'
 import pressureIcon from '/public/img/weather/barometer.svg'
 import windsockIcon from '/public/img/weather/windsock.svg'
 import { FcCalendar, FcClock, FcGlobe } from 'react-icons/fc'
-import MoreButton from '../dom/MoreButton'
+import { useMediaQuery } from 'react-responsive'
 
 export default function CurrentWeatherCard({ data, timezone, units, style }) {
-  const [isMoreItemShown, setIsMoreItemShown] = useState(false)
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  const iconSize = isTabletOrMobile ? 32 : 50
   return (
     <>
       {data !== null && data.current !== null && (
@@ -41,8 +42,8 @@ export default function CurrentWeatherCard({ data, timezone, units, style }) {
                 <Image
                   className={styles['weather__current--misc-icon']}
                   src={humidityIcon}
-                  width={50}
-                  height={50}
+                  width={iconSize}
+                  height={iconSize}
                   alt='Drop of water icon represents humidity'
                 />
                 <strong>Humidity:</strong>
@@ -56,8 +57,8 @@ export default function CurrentWeatherCard({ data, timezone, units, style }) {
                 <Image
                   className={styles['weather__current--misc-icon']}
                   src={pressureIcon}
-                  width={50}
-                  height={50}
+                  width={iconSize}
+                  height={iconSize}
                   alt='Barometer icon to represent pressure'
                 />
                 <strong className={styles['weather__current--misc-bold']}> Pressure:</strong>
@@ -71,8 +72,8 @@ export default function CurrentWeatherCard({ data, timezone, units, style }) {
                 <Image
                   className={styles['weather__current--misc-icon']}
                   src={windsockIcon}
-                  width={50}
-                  height={50}
+                  width={iconSize}
+                  height={iconSize}
                   alt='Windsok image for wind speed illustration'
                 />
                 <strong className={styles['weather__current--misc-bold']}> Wind:</strong>
@@ -83,7 +84,7 @@ export default function CurrentWeatherCard({ data, timezone, units, style }) {
             </div>
             <div className={styles['weather__current--misc-item']}>
               <div className={styles['weather__current--misc-title']}>
-                <FcCalendar className={styles['weather__current--misc-icon']} size={39} />
+                <FcCalendar className={styles['weather__current--misc-icon']} size={iconSize} />
                 <strong className={styles['weather__current--misc-bold']}> Local Date:</strong>
               </div>
               <p
@@ -92,30 +93,26 @@ export default function CurrentWeatherCard({ data, timezone, units, style }) {
             </div>
             <div className={styles['weather__current--misc-item']}>
               <div className={styles['weather__current--misc-title']}>
-                <FcClock className={styles['weather__current--misc-icon']} size={50} />
+                <FcClock className={styles['weather__current--misc-icon']} size={iconSize} />
                 <strong className={styles['weather__current--misc-bold']}> Time: </strong>
               </div>
               <p className={styles['weather__current--misc-value']}>
-                {`${new Date(data.current.time).toLocaleTimeString()}`}
+                Apprx. {`${new Date(data.current.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
               </p>
             </div>
             <div className={styles['weather__current--misc-item']}>
               <div className={styles['weather__current--misc-title']}>
-                <FcGlobe className={styles['weather__current--misc-icon']} size={50} />
+                <FcGlobe className={styles['weather__current--misc-icon']} size={iconSize} />
                 <strong className={styles['weather__current--misc-bold']}> TZ:</strong>
               </div>
-              <p className={styles['weather__current--misc-value']}>{`${timezone}`}</p>
+              <p
+                className={styles['weather__current--misc-value']}
+              >{`${timezone.replace('/', ' / ').replace('_', ' ')}`}</p>
             </div>
           </div>
-          <MoreButton
-            onClick={() => {
-              setIsMoreItemShown(!isMoreItemShown)
-            }}
-            clicked={isMoreItemShown}
-          />
         </div>
       )}
-      {data === null && <div>No data availaaable</div>}
+      {data === null && <div>No data available</div>}
     </>
   )
 }

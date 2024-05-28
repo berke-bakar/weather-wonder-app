@@ -15,8 +15,6 @@
   width: 50%;
   height: 200px;
 }
-.weather__current--temp-container {
-}
 
 .weather__current--status-container {
   display: flex;
@@ -28,6 +26,7 @@
   margin: 0;
   padding: 0;
   line-height: 1.2;
+  text-align: end;
 }
 .weather__current--apptemp {
   font-style: italic;
@@ -46,7 +45,7 @@
 }
 
 .weather__current--misc-icon {
-  flex-basis: 50px;
+  flex-basis: 35px;
   color: black;
 }
 
@@ -58,9 +57,55 @@
   border-bottom: 1px solid white;
 }
 
+.weather__current--misc-item:nth-last-child(1),
+.weather__current--misc-item:nth-last-child(2) {
+  border: none;
+}
+
 .weather__current--misc-title {
   display: flex;
   align-items: center;
   flex: 1;
   gap: 0.5rem;
+}
+/* xl */
+@media (max-width: 1280px) {
+  .weather__current--misc-item {
+    flex-direction: column;
+  }
+  .weather__current--misc-title {
+    gap: 0;
+  }
+
+  .weather__current--misc-icon {
+    flex-basis: 32px;
+  }
+}
+/* lg */
+@media (max-width: 1024px) {
+  .weather__current--misc-container {
+    font-size: 1rem;
+  }
+
+  .weather__current--temp {
+    font-size: 3rem;
+  }
+}
+/* md */
+@media (max-width: 768px) {
+  .weather__current--misc-item {
+    padding: 0.75rem;
+  }
+}
+/* sm */
+@media (max-width: 640px) {
+  .weather__current--misc-item {
+    padding: 0.5rem;
+  }
+
+  .weather__current--img {
+    position: relative;
+    width: 50%;
+    height: 100px;
+  }
 }
