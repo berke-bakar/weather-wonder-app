@@ -7,6 +7,7 @@ import LoadingComponent from './LoadingComponent'
 import { useSpring, a } from '@react-spring/web'
 import styles from './SearchBar.module.css'
 import axios from 'axios'
+import { useMediaQuery } from 'react-responsive'
 
 export default function SearchBar() {
   const initialState = { results: [], error: '' }
@@ -108,6 +109,7 @@ export default function SearchBar() {
                 placeName={item.display_name}
                 data={{ lat: Number(item.lat), lon: Number(item.lon), placeName: item.name }}
                 className={`${styles['search__result_item']} ${index === 0 ? styles['search__result_item-first'] : index === searchResults.results.length - 1 ? styles['search__result_item-last'] : styles['search__result_item-middle']}`}
+                notify={handleResultsVisibilityClick}
               />
             ))}
           {searchResults.results.length === 0 && (
@@ -121,12 +123,16 @@ export default function SearchBar() {
   )
 }
 
-function SearchResult({ placeId, placeName, data, ...props }) {
+function SearchResult({ placeId, placeName, data, notify, ...props }) {
   const setCoordinates = useWeatherStore((state) => state.setCoordinates)
   const setPlaceInfo = useWeatherStore((state) => state.setPlaceInfo)
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
   function handleClick(evt) {
     setPlaceInfo({ id: placeId, name: data.placeName, detailedName: placeName })
     setCoordinates(data.lat, data.lon)
+    if (isTabletOrMobile) {
+      notify()
+    }
   }
 
   return (
