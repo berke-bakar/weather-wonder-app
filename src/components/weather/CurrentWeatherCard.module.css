@@ -13,7 +13,7 @@
 .weather__current--img {
   position: relative;
   width: 50%;
-  height: 200px;
+  height: 180px;
 }
 
 .weather__current--status-container {
@@ -72,6 +72,7 @@
 @media (max-width: 1280px) {
   .weather__current--misc-item {
     flex-direction: column;
+    align-items: flex-start;
   }
   .weather__current--misc-title {
     gap: 0;
@@ -104,8 +105,6 @@
   }
 
   .weather__current--img {
-    position: relative;
-    width: 50%;
     height: 100px;
   }
 }

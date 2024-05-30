@@ -9,9 +9,12 @@ import sunsetIcon from '/public/img/weather/sunset.svg'
 
 import Image from 'next/image'
 import styles from './DailyWeatherCard.module.css'
-import { FaClock } from 'react-icons/fa'
+import CounterDaySelection from '../dom/CounterDaySelection'
+import { useMediaQuery } from 'react-responsive'
 
 export default function DailyWeatherCard({ data, units, style }) {
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  const iconSize = isTabletOrMobile ? 32 : 50
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
 
   return (
@@ -43,11 +46,11 @@ export default function DailyWeatherCard({ data, units, style }) {
                   <Image
                     className={styles['weather__daily--misc-icon']}
                     src={thermometerIcon}
-                    width={50}
-                    height={50}
+                    width={iconSize}
+                    height={iconSize}
                     alt='Thermometer icon'
                   />
-                  <strong>Temp:</strong>
+                  <strong>Temp: </strong>
                 </div>
                 <p className={styles['weather__daily--misc-value']}>
                   {`${data[selectedDayIndex].temperature_2m_max} ${units.temperature_2m_max} / ${data[selectedDayIndex].temperature_2m_min} ${units.temperature_2m_min}`}
@@ -58,8 +61,8 @@ export default function DailyWeatherCard({ data, units, style }) {
                   <Image
                     className={styles['weather__daily--misc-icon']}
                     src={windsockIcon}
-                    width={50}
-                    height={50}
+                    width={iconSize}
+                    height={iconSize}
                     alt='Windsok image for wind speed illustration'
                   />
                   <strong className={styles['weather__daily--misc-bold']}> Wind:</strong>
@@ -70,7 +73,7 @@ export default function DailyWeatherCard({ data, units, style }) {
               </div>
               <div className={styles['weather__daily--misc-item']}>
                 <div className={styles['weather__daily--misc-title']}>
-                  <IoRainyOutline className={styles['weather__daily--misc-icon']} size={39} />
+                  <IoRainyOutline className={styles['weather__daily--misc-icon']} size={iconSize} />
                   <strong className={styles['weather__daily--misc-bold']}> Chance of rain:</strong>
                 </div>
                 <p
@@ -79,7 +82,7 @@ export default function DailyWeatherCard({ data, units, style }) {
               </div>
               <div className={styles['weather__daily--misc-item']}>
                 <div className={styles['weather__daily--misc-title']}>
-                  <IoSunnyOutline className={styles['weather__daily--misc-icon']} size={39} />
+                  <IoSunnyOutline className={styles['weather__daily--misc-icon']} size={iconSize} />
                   <strong className={styles['weather__daily--misc-bold']}> UV Index: </strong>
                 </div>
                 <p className={styles['weather__daily--misc-value']}>
@@ -91,22 +94,22 @@ export default function DailyWeatherCard({ data, units, style }) {
                   <Image
                     className={styles['weather__daily--misc-icon']}
                     src={sunriseIcon}
-                    width={50}
-                    height={50}
+                    width={iconSize}
+                    height={iconSize}
                     alt='Sunrise icon'
                   />
                   <strong className={styles['weather__daily--misc-bold']}> Sunrise:</strong>
                 </div>
                 <p
                   className={styles['weather__daily--misc-value']}
-                >{`${new Date(data[selectedDayIndex].sunrise).toLocaleTimeString()}`}</p>
+                >{`${new Date(data[selectedDayIndex].sunrise).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</p>
               </div>
               <div className={styles['weather__daily--misc-item']}>
                 <div className={styles['weather__daily--misc-title']}>
                   <Image
                     className={styles['weather__daily--misc-icon']}
                     src={sunsetIcon}
-                    width={50}
+                    width={iconSize}
                     height={50}
                     alt='Sunset icon'
                   />
@@ -114,14 +117,7 @@ export default function DailyWeatherCard({ data, units, style }) {
                 </div>
                 <p
                   className={styles['weather__daily--misc-value']}
-                >{`${new Date(data[selectedDayIndex].sunset).toLocaleTimeString()}`}</p>
-              </div>
-              <div className={styles['weather__daily--misc-item']}>
-                <div className={styles['weather__daily--misc-title']}>
-                  <FaClock className={styles['weather__daily--misc-icon']} size={39} />
-                  <strong className={styles['weather__daily--misc-bold']}> Day Light Duration:</strong>
-                </div>
-                <p className={styles['weather__daily--misc-value']}>{`${data[selectedDayIndex].daylight_duration}`}</p>
+                >{`${new Date(data[selectedDayIndex].sunset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</p>
               </div>
             </div>
           </div>
@@ -138,6 +134,17 @@ export default function DailyWeatherCard({ data, units, style }) {
         }
         onClickHandler={setSelectedDayIndex}
         activeIndex={selectedDayIndex}
+      />
+      <CounterDaySelection
+        days={
+          data
+            ? data.map((value) => {
+                return value.date.getDay()
+              })
+            : ['No data']
+        }
+        selectedTab={selectedDayIndex}
+        notify={setSelectedDayIndex}
       />
     </div>
   )

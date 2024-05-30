@@ -19,14 +19,20 @@ export default function CounterDaySelection({ days, selectedTab, notify }) {
       <div
         id={0}
         className={`${styles['day__counter--item']}`}
-        onClick={() => notify((((selectedTab - 1) % 7) + 7) % 7)}
+        onClick={() => (selectedTab !== 0 ? notify((((selectedTab - 1) % 7) + 7) % 7) : null)}
+        style={{ color: selectedTab === 0 ? 'gray' : 'white' }}
       >
         <FaChevronLeft size={16} />
       </div>
       <div id={1} className={`${styles['day__counter--item']}`}>
         {currentDay}
       </div>
-      <div id={2} className={`${styles['day__counter--item']}`} onClick={() => notify((selectedTab + 1) % 7)}>
+      <div
+        id={2}
+        className={`${styles['day__counter--item']}`}
+        onClick={() => (selectedTab !== days.length - 1 ? notify((selectedTab + 1) % 7) : null)}
+        style={{ color: selectedTab === days.length - 1 ? 'gray' : 'white' }}
+      >
         <FaChevronRight size={16} />
       </div>
     </div>

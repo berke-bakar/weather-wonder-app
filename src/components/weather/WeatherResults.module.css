@@ -6,7 +6,6 @@
   color: #fff;
   max-width: 90dvw;
   min-height: 30dvh;
-  max-height: 90dvh;
   border-radius: 10px;
   padding: 1rem 1rem;
   display: flex;
@@ -103,6 +102,13 @@
 .weather__data {
   flex: 1;
   display: flex;
+  margin-top: 1rem;
+}
+/* xl */
+@media (max-width: 1280px) {
+  .weather__data {
+    margin-top: 0rem;
+  }
 }
 
 /* md */
