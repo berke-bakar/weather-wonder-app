@@ -1,0 +1,29 @@
+.day__counter--container {
+  display: none;
+  border-radius: 9999px;
+  align-items: center;
+  border: 2px solid #fff;
+  margin: 0 auto;
+}
+
+.day__counter--item {
+  padding: 0.25rem;
+}
+
+.day__counter--item:nth-child(odd):hover {
+  background-color: hsla(224, 15%, 19%, 0.249);
+}
+
+.day__counter--item:first-child {
+  border-radius: 9999px 0px 0px 9999px;
+}
+
+.day__counter--item:last-child {
+  border-radius: 0px 9999px 9999px 0px;
+}
+/* xs */
+@media (max-width: 475px) {
+  .day__counter--container {
+    display: flex;
+  }
+}

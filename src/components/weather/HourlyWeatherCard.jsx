@@ -3,24 +3,27 @@ import CapsuleTabSelection from '../dom/CapsuleTabSelection'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { useMediaQuery } from 'react-responsive'
+import CounterDaySelection from '../dom/CounterDaySelection'
 
 export default function HourlyWeatherCard({ data, units, style, ...props }) {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' })
 
   return (
     <div className={styles['weather__hourly--flex']} style={style}>
       {data && (
         <>
-          <div className={styles['weather__hourly--row']}>
-            <div className={styles['weather__hourly--header']}>Time</div>
-            <div className={styles['weather__hourly--header']}>Cond.</div>
-            <div className={styles['weather__hourly--header']}>Temp.</div>
-            <div className={styles['weather__hourly--header']}>Feels Like</div>
-            <div className={styles['weather__hourly--header']}>Humidity</div>
-            <div className={styles['weather__hourly--header']}>Chance of Rain</div>
-            <div className={styles['weather__hourly--header']}>Wind</div>
-          </div>
           <div className={styles['weather__hourly--container']}>
+            <div className={styles['weather__hourly--row']}>
+              <div className={styles['weather__hourly--header']}>Time</div>
+              <div className={styles['weather__hourly--header']}>Cond.</div>
+              <div className={styles['weather__hourly--header']}>Temp.</div>
+              <div className={styles['weather__hourly--header']}>Feels Like</div>
+              <div className={styles['weather__hourly--header']}>{!isSmallScreen ? 'Humidity' : 'Hum'}</div>
+              <div className={styles['weather__hourly--header']}>Chance of Rain</div>
+              <div className={styles['weather__hourly--header']}>Wind</div>
+            </div>
             {Array.from({ length: 24 }).map((val, idx) => {
               return (
                 <div key={idx} className={styles['weather__hourly--row']}>
@@ -65,6 +68,11 @@ export default function HourlyWeatherCard({ data, units, style, ...props }) {
             }
             onClickHandler={setSelectedDayIndex}
             activeIndex={selectedDayIndex}
+          />
+          <CounterDaySelection
+            days={data ? data.map((value) => value.day) : ['No data']}
+            selectedTab={selectedDayIndex}
+            notify={setSelectedDayIndex}
           />
         </>
       )}

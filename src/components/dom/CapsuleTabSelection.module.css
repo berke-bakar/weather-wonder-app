@@ -30,3 +30,10 @@
   background-color: white;
   color: #292d39;
 }
+
+/* xs */
+@media (max-width: 475px) {
+  .capsule__container {
+    display: none;
+  }
+}

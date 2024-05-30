@@ -1,15 +1,18 @@
 import React from 'react'
 import styles from './CapsuleTabSelection.module.css'
+import { useMediaQuery } from 'react-responsive'
 
 export default function CapsuleTabSelection({ tabNames, activeIndex = 0, onClickHandler = null }) {
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' })
+
   const days = {
-    0: 'Sunday',
-    1: 'Monday',
-    2: 'Tuesday',
-    3: 'Wednesday',
-    4: 'Thursday',
-    5: 'Friday',
-    6: 'Saturday',
+    0: !isSmallScreen ? 'Sunday' : 'Sun',
+    1: !isSmallScreen ? 'Monday' : 'Mon',
+    2: !isSmallScreen ? 'Tuesday' : 'Thu',
+    3: !isSmallScreen ? 'Wednesday' : 'Wed',
+    4: !isSmallScreen ? 'Thursday' : 'Thu',
+    5: !isSmallScreen ? 'Friday' : 'Fri',
+    6: !isSmallScreen ? 'Saturday' : 'Sat',
   }
 
   return (
@@ -21,7 +24,7 @@ export default function CapsuleTabSelection({ tabNames, activeIndex = 0, onClick
         if (index === 0) {
           dayName = 'Today'
         } else if (index === 1) {
-          dayName = 'Tomorrow'
+          dayName = !isSmallScreen ? 'Tomorrow' : 'Tmrw'
         }
         return (
           <div
