@@ -1,6 +1,6 @@
 .weather__container {
   position: absolute;
-  bottom: 25%;
+  top: 15%;
   left: 52.5%;
   z-index: 1000;
   color: #fff;
@@ -109,6 +109,9 @@
   .weather__data {
     margin-top: 0rem;
   }
+  .weather__container {
+    top: 5%;
+  }
 }
 
 /* md */
@@ -118,5 +121,21 @@
   }
   .weather__type-container--counter {
     display: flex;
+  }
+  .weather__container {
+    top: 10%;
+    left: 25%;
+  }
+}
+/* sm */
+@media (max-width: 640px) {
+  .weather__container {
+    left: 20%;
+  }
+}
+/* xs */
+@media (max-width: 475px) {
+  .weather__container {
+    left: 5%;
   }
 }

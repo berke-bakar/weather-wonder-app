@@ -27,7 +27,7 @@ export default function WeatherResults() {
   // Tab selection, and favorite places
   const [selectedTab, setSelectedTab] = useState(0)
   const [isFavAnimPlaying, setIsFavAnimPlaying] = useState(false)
-  const [favoritePlaces, setFavoritePlaces] = useState([])
+  const [favoritePlaces, setFavoritePlaces] = useState(null)
   const [weatherInfo, setWeatherInfo] = useState({})
 
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))

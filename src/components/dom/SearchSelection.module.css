@@ -25,6 +25,7 @@
   justify-items: center;
   align-items: center;
   gap: 2px;
+  user-select: none;
 }
 .selection__tabs--item {
   display: flex;
