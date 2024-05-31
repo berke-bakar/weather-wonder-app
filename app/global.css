@@ -31,6 +31,12 @@
     user-select: none;
   }
 
+  .attribution {
+    font-size: 0.75rem;
+    text-align: center;
+    margin-top: 5px;
+  }
+
   /* 2xl */
   @media (max-width: 1536px) {
     .page__title {

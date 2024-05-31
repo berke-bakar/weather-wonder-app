@@ -122,6 +122,12 @@ export default function SearchBar() {
               {searchResults.error ? searchResults.error : 'No results found.'}
             </div>
           )}
+          <p className='attribution' style={{ fontSize: '0.75rem', textAlign: 'center' }}>
+            Location data provided by{' '}
+            <a href='https://openstreetmap.org/copyright'>
+              <code>OpenStreetMap</code>
+            </a>
+          </p>
         </div>
       )}
     </a.div>

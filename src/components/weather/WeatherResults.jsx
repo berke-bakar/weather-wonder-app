@@ -249,6 +249,12 @@ export default function WeatherResults() {
           style={{ display: `${selectedTab == 2 ? 'flex' : 'none'}` }}
         />
       </div>
+      <p className='attribution'>
+        Weather data by{' '}
+        <a href='https://open-meteo.com'>
+          <code>Open-Meteo.com</code>
+        </a>
+      </p>
     </a.div>
   )
 }
