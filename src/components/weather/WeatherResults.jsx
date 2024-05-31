@@ -37,7 +37,7 @@ export default function WeatherResults() {
 
   function handleFavoritePlaceClick(evt) {
     if (placeInfo !== null) {
-      const resultArr = [...favoritePlaces]
+      const resultArr = favoritePlaces ? [...favoritePlaces] : []
       let index = resultArr.findIndex((value) => {
         return value.id === placeInfo.id
       })
