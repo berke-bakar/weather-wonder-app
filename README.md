@@ -1,5 +1,7 @@
 # Weather Wonder - Interactive 3D Weather Map
 
+![Alt text](./image/README/scores/lighthouse_accessibility.svg) ![Alt text](./image/README/scores/lighthouse_best-practices.svg) ![Alt text](./image/README/scores/lighthouse_performance.svg) ![Alt text](./image/README/scores/lighthouse_seo.svg)
+
 An open-source 3D progressive web application ([PWA](https://web.dev/explore/progressive-web-apps)) for checking current/hourly/daily weather forecast in any location you want on globe. Users can also save their favorite places for fast access.
 
 Visit [Weather Wonder](https://weatherwonder.vercel.app/) to try out!
