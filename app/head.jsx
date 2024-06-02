@@ -1,5 +1,5 @@
-const title = "What's the weather?"
-const url = 'https://example.com'
+const title = 'Weather Wonder - Interactive 3D Weather Map'
+const url = 'https://weatherwonder.vercel.app'
 const description = 'Easy and nice way of checking weather forecast worldwide.'
 const author = 'Berke Bakar'
 
@@ -17,7 +17,7 @@ export default function Head() {
       {/* Search Engine Optimization Meta Tags */}
       <title>{title}</title>
       <meta name='description' content={description} />
-      <meta name='keywords' content='Software Engineer, Frontend Engineer, Data Scientist,Computer Scientist' />
+      <meta name='keywords' content='weather, forecast, current, hourly, daily, meteorology, geolocation' />
       <meta name='robots' content='index,follow' />
       <meta name='distribution' content='web' />
       {/* 
@@ -35,12 +35,10 @@ export default function Head() {
       <link rel='apple-touch-icon' sizes='32x32' href='/icons/favicon-32x32.png' />
       <link rel='apple-touch-icon' sizes='180x180' href='/icons/apple-touch-icon.png' />
       <link rel='manifest' href='/manifest.json' />
-      <link rel='mask-icon' color='#000000' href='/icons/safari-pinned-tab.svg' />
-      <link rel='apple-touch-startup-image' href='/startup.png' />
 
       {/* Meta Tags for HTML pages on Mobile */}
-      {/* <meta name="format-detection" content="telephone=yes"/>
-        <meta name="HandheldFriendly" content="true"/>  */}
+      <meta name='format-detection' content='telephone=yes' />
+      <meta name='HandheldFriendly' content='true' />
       <meta name='viewport' content='width=device-width, minimum-scale=1, initial-scale=1.0' />
       <meta name='theme-color' content='#000' />
       <link rel='shortcut icon' href='/icons/apple-touch-icon.png' />

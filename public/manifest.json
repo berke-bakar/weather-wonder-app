@@ -1,6 +1,6 @@
 {
-  "name": "What's the Weather",
-  "short_name": "WTW",
+  "name": "Weather Wonder",
+  "short_name": "WW",
   "icons": [
     {
       "src": "/icons/apple-touch-icon.png",

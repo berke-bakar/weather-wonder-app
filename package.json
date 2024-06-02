@@ -1,8 +1,8 @@
 {
-  "name": "react-three-next",
-  "version": "2.0.0",
+  "name": "weather-wonder",
+  "version": "1.0.0",
   "authors": [
-    "Renaud ROHLINGER <https://twitter.com/onirenaud>"
+    "Berke Bakar"
   ],
   "license": "MIT",
   "private": true,
